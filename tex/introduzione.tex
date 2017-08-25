@@ -1,6 +1,13 @@
 \chapter{Introduzione}
+Con “Flusso dei dati" o “Flusso di controllo" di una applicazione ci riferiamo a come le informazioni e gli eventi si muovono tra i suoi vari livelli logici.
 
-La gestione del flusso dei dati all'interno di una applicazione web è un argomento molto discusso dopo l'avvento di tecnologie front-end sempre più complesse e potenti come React o Angular. La causa di ciò è la necessità di avere un codice che sia il più possibile scalabile ed il più facilmente testabile a prescindere dal numero di features che verranno successivamente aggiunte. 
+\section{Background}
+La gestione del flusso dei dati all'interno di una applicazione web è un argomento molto discusso dopo l'avvento di tecnologie front-end sempre più complesse e potenti come \textit{React} o \textit{Angular}. La causa di ciò è la necessità di avere un codice che sia il più possibile scalabile ed il più facilmente testabile a prescindere dal numero di features che verranno successivamente aggiunte. 
 Codebase vaste come potrebbero essere quelle di Facebook, Twitter o YouTube necessitano di una architettura di fondo che sia altamente chiara e comprensibile per evitare confusione tra i vari servizi.
 Come vedremo successivamente, architetture datate come l'MVC pur essendo molto efficienti lato back-end non rendono allo stesso modo lato front-end, dove c'è una quantità maggiore di azioni che l'utente può intraprendere e che possono avere ripercussioni differenti su più componenti diversi all'interno di una view.
 In questo documento verrà discussa l'alternativa attualmente più gettonata che è quella dell'architettura a flusso unidirezionale, implementata in prima battuta da Flux e successivamente ottimizzata da Redux.
+
+\section{Lo stato dell'arte}
+Possiamo paragonare la creazione della prima applicazione web con la messa online del primo sito da parte di Tim Berners-Lee nel 1991 dal Cern di Ginevra \cite{HuffingtonpostFirstWebsite}. Stiamo tuttavia parlando di una applicazione statica costruita solamente in HTML. La svolta avvenne il 5 maggio del 1995 con l'avvento di Javascript \cite{W3cJavascriptHistory}, il linguaggio che anche adesso è alla base di tutte le tecnologie web più nuove e potenti. Da qui in poi l'evoluzione è andata avanti in maniera esponenziale partendo da un utilizzo banale del linguaggio fino a giungere alla situazione attuale con framework ed architetture complesse.
+
+La problematica della gestione del flusso dei dati è nata con la comparsa delle prime librerie in grado di sorreggere applicazioni notevolmente grandi. Nel 2010, \textit{Backbone.js}, un framework creato da Jeremy Ashkenas basato sul modello MVC
