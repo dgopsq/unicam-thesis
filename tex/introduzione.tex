@@ -1,6 +1,7 @@
 \chapter{Introduzione}
-Il \textit{Flusso dei dati} nel front-end di una applicazione web rappresenta tutti gli input e gli eventi che si muovono attraverso i suoi vari livelli logici.
-Un'interfaccia utente mette a disposizione dell'utilizzatore una grande quantità di input, sia volontari che involontari, i quali devono essere opportunamente gestiti e sincronizzati. La struttura del codice diventa quindi prioritaria al fine di ottenere un prodotto che sia soddisfacente a livello di prestazioni e che riesca a mantenere un adeguato livello di scalabilità.
+Il \textit{Flusso dei dati} nel front-end di una applicazione web rappresenta tutti gli input e gli eventi che si muovono attraverso i suoi vari livelli logici. Più questo flusso è intenso e disorganizzato più diventa complicato gestire lo stato dell'applicazione.
+
+Un'interfaccia utente mette a disposizione dell'utilizzatore una grande quantità di interazioni, sia volontarie che involontarie, che cambiano in continuazione lo stato dell'applicazione e che devono essere opportunamente gestite e sincronizzate. La struttura del codice diventa quindi prioritaria al fine di ottenere un prodotto che sia soddisfacente a livello di prestazioni e che riesca a mantenere un adeguato livello di scalabilità.
 
 \section{Background}
 La gestione del flusso dei dati all'interno di una applicazione web è un argomento molto discusso dopo l'avvento di tecnologie front-end sempre più complesse e potenti come \textit{React} o \textit{Angular}. La causa di ciò è la necessità di avere un codice che sia il più possibile scalabile ed il più facilmente testabile a prescindere dal numero di features che verranno successivamente aggiunte. 
@@ -11,4 +12,18 @@ In questo documento verrà discussa l'alternativa attualmente più gettonata che
 \section{Lo stato dell'arte}
 Possiamo paragonare la creazione della prima applicazione web con la messa online del primo sito da parte di Tim Berners-Lee nel 1991 dal Cern di Ginevra \cite{HuffingtonpostFirstWebsite}. Stiamo tuttavia parlando di una applicazione statica costruita solamente in HTML. La svolta avvenne il 5 maggio del 1995 con l'avvento di Javascript \cite{W3cJavascriptHistory}, il linguaggio che anche adesso è alla base di tutte le tecnologie web più nuove e potenti. Da qui in poi l'evoluzione è andata avanti in maniera esponenziale partendo da un utilizzo banale del linguaggio fino a giungere alla situazione attuale con framework ed architetture complesse.
 
-La problematica della gestione del flusso dei dati è nata con la comparsa delle prime librerie in grado di sorreggere applicazioni notevolmente grandi. Nel 2010, \textit{Backbone.js}, un framework creato da Jeremy Ashkenas basato sul modello MVC
+\subsection{Single-page web application}
+La problematica della gestione del flusso dei dati è nata con la comparsa delle così dette \textit{Single-page web application} (SPA), ossia applicazioni organizzate all'interno di un'unica pagina web e gestite interamente tramite Javascript.
+Nel loro stadio iniziale queste non erano costruite sopra una struttura ben definita e la gestione del flusso dei dati avveniva in maniera disordinata gestendo ogni azione dell'utente in maniera diretta.
+
+Andando avanti con il tempo e con l'aumentare della complessità di queste applicazioni, si è sentito il bisogno di creare un'architettura ben definita che aiutasse a gestire in maniera più consistente lo stato del servizio e tutti i suoi eventuali cambiamenti.
+
+\subsection{I primi framework}
+La necessità di avere struttura più solida lato front-end, specialmente per applicazioni più esigenti, ha portato alla nascita dei primi framework basati sull'architettura MVC (Model - View - Controller).
+
+\blockquote{Single page apps are distinguished by their ability to redraw any part of the UI without requiring a server roundtrip to retrieve HTML. This is achieved by separating the data from the presentation of data by having a model layer that handles data and a view layer that reads from the models. \cite{MixuSinglePageWebApp}}
+
+\noindent Nel modello MVC per front-end (e come anche in quello back-end), che riprenderemo in dettaglio più avanti nel documento, abbiamo una netta distinzione tra i dati e la presentazione di quest'ultimi (ossia tra Model e View). Questo ci permette di avere un controllo maggiore sullo stato globale e di ogni singolo componente dell'interfaccia oltre ad un codice più robusto e facile da modificare nel tempo \cite{ParrOnTheMVC}.
+
+Javascript ha a disposizione un numero considerevolmente alto di framework MVC. Uno dei più famosi è sicuramente stato \textit{Backbone.js} creato da Jeremy Ashkenas. Questo è basato sul modello MVP (Model - View - Presenter) che deriva direttamente dal modello MVC e differisce da quest'ultimo delegando tutta la logica della View al Presenter, che si occupa di gestire il Model e aggiornare la View di conseguenza \cite{EmmattyMVCvsMVP}.
+Backbone.js ha mantenuto il primato di uno dei framework più utilizzati 
