@@ -174,13 +174,13 @@
 
 \begin{center}
   {\rmfamily \Large \bfseries \@theuniversity \par}%
-  \vspace{0.15cm}%
+  \vspace{0.54cm}%
   \hrule%
-  \vspace{0.15cm}%
+  \vspace{0.54cm}%
   {\rmfamily \Large \scshape Scuola di \@theschool \par}%
   \vspace{0.15cm}%
   {\rmfamily \large Corso di \@thecourse \par}%
-  \vspace{1cm}%
+  \vspace{1.5cm}%
   \includegraphics[width=2.5cm]{Immagini/stemma}\par%
   \vspace*{\stretch{7}}%
   {\rmfamily \LARGE \bfseries \@thetitle \par}%
@@ -207,7 +207,7 @@
 %
   \vspace*{\stretch{7}}%
   \hrule%
-  \vspace{0.15cm}%
+  \vspace{0.54cm}%
   {\large A.A. \@theacademicyear}%
 \end{center}
 
