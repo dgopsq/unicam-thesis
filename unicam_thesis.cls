@@ -8,7 +8,7 @@
 % -----------------------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{unicam_thesis}[2010/06/30 - LaTeX class for composing thesis at 
-                  University of Camerino - School of Science ant Technologies]
+University of Camerino - School of Science ant Technologies]
 % -----------------------------------------------------------------------------
 
 \newcommand{\@ptoption}{1pt}
@@ -67,9 +67,9 @@
 \fancyfoot[LE,RO]{\thepage}
 
 \fancypagestyle{plain}{ %
-  \fancyhf{} %
-  \renewcommand{\headrulewidth}{0pt}%
-  \renewcommand{\footrulewidth}{0pt}%
+	\fancyhf{} %
+	\renewcommand{\headrulewidth}{0pt}%
+	\renewcommand{\footrulewidth}{0pt}%
 }
 
 % \RequirePackage{helvet}
@@ -92,18 +92,18 @@
 \RequirePackage[final]{listings}
 \definecolor{listingsBackground}{rgb}{0.9,0.9,0.9}
 \lstdefinestyle{xmlCode}{language=XML,frame=tbrl,
-  basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,
-  stringstyle=\itshape,flexiblecolumns=true,
-  commentstyle=\itshape,captionpos=b,abovecaptionskip=10pt,belowcaptionskip=0pt,
-  backgroundcolor=\color{listingsBackground}, frame=none
-, numbers=left, numberstyle={\tiny }
+	basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,
+	stringstyle=\itshape,flexiblecolumns=true,
+	commentstyle=\itshape,captionpos=b,abovecaptionskip=10pt,belowcaptionskip=0pt,
+	backgroundcolor=\color{listingsBackground}, frame=none
+	, numbers=left, numberstyle={\tiny }
 }
 \lstdefinestyle{javaCode}{language=Java,frame=tbrl,
-  basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,
-  stringstyle=\itshape,flexiblecolumns=true,
-  commentstyle=\itshape,captionpos=b,abovecaptionskip=10pt,belowcaptionskip=0pt,
-  backgroundcolor=\color{listingsBackground}, frame=none, 
-  numbers=left, numberstyle={\tiny }
+	basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,
+	stringstyle=\itshape,flexiblecolumns=true,
+	commentstyle=\itshape,captionpos=b,abovecaptionskip=10pt,belowcaptionskip=0pt,
+	backgroundcolor=\color{listingsBackground}, frame=none, 
+	numbers=left, numberstyle={\tiny }
 }
 
 % ---------------------------------------------------------------------------
@@ -117,8 +117,8 @@
 
 \let\origdoublepage\cleardoublepage
 \newcommand{\clearemptydoublepage}{%
-  \clearpage
-  {\pagestyle{empty}\origdoublepage}%
+	\clearpage
+	{\pagestyle{empty}\origdoublepage}%
 }
 \let\cleardoublepage\clearemptydoublepage
 
@@ -167,54 +167,54 @@
 \newcommand{\HRule}{\rule{\linewidth}{0pt}}
 
 \renewcommand{\maketitle}{%
-\thispagestyle{empty}
-%\enlargethispage{4\baselineskip}
-\setlength{\parindent}{0mm}
-\setlength{\parskip}{0mm}
-
-\begin{center}
-  {\rmfamily \Large \bfseries \@theuniversity \par}%
-  \vspace{0.54cm}%
-  \hrule%
-  \vspace{0.54cm}%
-  {\rmfamily \Large \scshape Scuola di \@theschool \par}%
-  \vspace{0.15cm}%
-  {\rmfamily \large Corso di \@thecourse \par}%
-  \vspace{1.5cm}%
-  \includegraphics[width=2.5cm]{Immagini/stemma}\par%
-  \vspace*{\stretch{7}}%
-  {\rmfamily \LARGE \bfseries \@thetitle \par}%
-  \vspace*{\stretch{7}}%
-  {Laureando \hfill Relatore \par}%
-  {\bfseries \large \@theauthor \hfill \@theadvisor \par}%
-  {\bfseries \small Matricola \@thematricola \hfill}%
-% Secondo advisor se esiste
-  \vspace{1cm}\\%
-  \ifx\@thesecondadvisor\@empty
-  \relax
-  \else
-  {\hfill Correlatore \par}%
-  {\bfseries \large \hfill \@thesecondadvisor \par}%
-  \fi
-% Terzo advisor se esiste
-  \vspace{1.5cm}%
-  \ifx\@thethirdadvisor\@empty
-  \relax
-  \else
-  {\hfill Secondo Correlatore \par}%
-  {\bfseries \large \hfill \@thethirdadvisor \par}%
-  \fi
-%
-  \vspace*{\stretch{7}}%
-  \hrule%
-  \vspace{0.54cm}%
-  {\large A.A. \@theacademicyear}%
-\end{center}
-
-\newpage
-\setlength{\parindent}{1em}
-\setlength{\parskip}{2pt}
-\cleardoublepage
+	\thispagestyle{empty}
+	%\enlargethispage{4\baselineskip}
+	\setlength{\parindent}{0mm}
+	\setlength{\parskip}{0mm}
+	
+	\begin{center}
+		{\rmfamily \Large \bfseries \@theuniversity \par}%
+		\vspace{0.54cm}%
+		\hrule%
+		\vspace{0.54cm}%
+		{\rmfamily \Large \scshape Scuola di \@theschool \par}%
+		\vspace{0.15cm}%
+		{\rmfamily \large Corso di \@thecourse \par}%
+		\vspace{1.5cm}%
+		\includegraphics[width=2.5cm]{Immagini/stemma}\par%
+		\vspace*{\stretch{7}}%
+		{\rmfamily \LARGE \bfseries \@thetitle \par}%
+		\vspace*{\stretch{7}}%
+		{Laureando \hfill Relatore \par}%
+		{\bfseries \large \@theauthor \hfill \@theadvisor \par}%
+		{\bfseries \small Matricola \@thematricola \hfill}%
+		% Secondo advisor se esiste
+		\vspace{1cm}\\%
+		\ifx\@thesecondadvisor\@empty
+			\relax
+		\else
+			{\hfill Correlatore \par}%
+			{\bfseries \large \hfill \@thesecondadvisor \par}%
+		\fi
+		% Terzo advisor se esiste
+		\vspace{1.5cm}%
+		\ifx\@thethirdadvisor\@empty
+			\relax
+		\else
+			{\hfill Secondo Correlatore \par}%
+			{\bfseries \large \hfill \@thethirdadvisor \par}%
+		\fi
+		%
+		\vspace*{\stretch{7}}%
+		\hrule%
+		\vspace{0.54cm}%
+		{\large A.A. \@theacademicyear}%
+	\end{center}
+	
+	\newpage
+	\setlength{\parindent}{1em}
+	\setlength{\parskip}{2pt}
+	\cleardoublepage
 }
 
 
@@ -265,21 +265,21 @@
 
 
 \newcommand{\abstract}[1]{
-\newpage
-\noindent
-\fbox{\parbox{.98\linewidth}{
-\vspace{-5mm}
-\section*{Abstract}
-\par
-#1
-}}\\[1cm]}
+	\newpage
+	\noindent
+	\fbox{\parbox{.98\linewidth}{
+		\vspace{-5mm}
+		\section*{Abstract}
+		\par
+		#1
+		}}\\[1cm]}
 \newcommand{\keywords}[1]{
-\noindent\fbox{\parbox{.98\linewidth}{
-\vspace{-5mm}
-\section*{Keyword List }
-\par
-#1
-}}
+	\noindent\fbox{\parbox{.98\linewidth}{
+		\vspace{-5mm}
+		\section*{Keyword List }
+		\par
+		#1
+	}}
 }
 
 \setlength{\baselineskip}{17pt}
@@ -361,106 +361,106 @@
 
 
 \newcommand{\historyitem}[3]{
-#1 & #2 & #3 \\ \hline
+	#1 & #2 & #3 \\ \hline
 }
 \newenvironment{history}
 {
-\newpage
-\section*{Document History}
-\begin{tabular}{|p{20mm}|p{82mm}|p{40mm}|}
-\hline 
-\textbf{Version} &  \textbf{Type of change}  & \textbf{Author(s)} \\
-\hline
-}
-{
-\end{tabular}
+	\newpage
+	\section*{Document History}
+	\begin{tabular}{|p{20mm}|p{82mm}|p{40mm}|}
+		\hline 
+		\textbf{Version} & \textbf{Type of change} & \textbf{Author(s)} \\
+		\hline
+		}
+		{
+	\end{tabular}
 }
 \newcommand{\reviewitem}[4]{
-#1 & #2 & #3 & #4 \\ \hline
+	#1 & #2 & #3 & #4 \\ \hline
 }
 \newenvironment{review}
 {
-\newpage
-\section*{Document Reviews}
-\begin{tabular}{|p{22mm}|p{20mm}|p{33mm}|p{63mm}|}
-\hline 
-\textbf{Date} & \textbf{Version} & \textbf{Reviewer} & \textbf{Comment} \\
-\hline
-}
-{
-\end{tabular}
+	\newpage
+	\section*{Document Reviews}
+	\begin{tabular}{|p{22mm}|p{20mm}|p{33mm}|p{63mm}|}
+		\hline 
+		\textbf{Date} & \textbf{Version} & \textbf{Reviewer} & \textbf{Comment} \\
+		\hline
+		}
+		{
+	\end{tabular}
 }
 \newcommand{\acronym}[2]{
-#1 & #2 \\ \hline
+	#1 & #2 \\ \hline
 }
 \newenvironment{acronyms}
 {
-\newpage
-\chapter*{Table of Acronyms}
-\addcontentsline{toc}{chapter}{Table of Acronyms}
-\begin{tabular}{|>{\centering}p{41mm}|p{106mm}|}
-\hline
-\textbf{Acronym} & \textbf{Expanded Version} \\
-\hline
-}
-{
-\end{tabular}
+	\newpage
+	\chapter*{Table of Acronyms}
+	\addcontentsline{toc}{chapter}{Table of Acronyms}
+	\begin{tabular}{|>{\centering}p{41mm}|p{106mm}|}
+		\hline
+		\textbf{Acronym} & \textbf{Expanded Version} \\
+		\hline
+		}
+		{
+	\end{tabular}
 }
 
 
 
 \renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
-                    \thispagestyle{plain}%
-                    \global\@topnum\z@
-                    \@afterindentfalse
-                    \secdef\@chapter\@schapter}
+	\thispagestyle{plain}%
+	\global\@topnum\z@
+	\@afterindentfalse
+	\secdef\@chapter\@schapter}
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
-                       \if@mainmatter
-                         \refstepcounter{chapter}%
-                         \typeout{\@chapapp\space\thechapter.}%
-                         \addcontentsline{toc}{chapter}%
-                                   {\protect\numberline{\thechapter}#1}%
-                       \else
-                         \addcontentsline{toc}{chapter}{#1}%
-                       \fi
-                    \else
-                      \addcontentsline{toc}{chapter}{#1}%
-                    \fi
-                    \chaptermark{#1}%
-                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
-                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
-                    \if@twocolumn
-                      \@topnewpage[\@makechapterhead{#2}]%
-                    \else
-                      \@makechapterhead{#2}%
-                      \@afterheading
-                    \fi}
+	\if@mainmatter
+	\refstepcounter{chapter}%
+	\typeout{\@chapapp\space\thechapter.}%
+	\addcontentsline{toc}{chapter}%
+	{\protect\numberline{\thechapter}#1}%
+	\else
+	\addcontentsline{toc}{chapter}{#1}%
+	\fi
+	\else
+	\addcontentsline{toc}{chapter}{#1}%
+	\fi
+	\chaptermark{#1}%
+	\addtocontents{lof}{\protect\addvspace{10\p@}}%
+	\addtocontents{lot}{\protect\addvspace{10\p@}}%
+	\if@twocolumn
+	\@topnewpage[\@makechapterhead{#2}]%
+	\else
+	\@makechapterhead{#2}%
+	\@afterheading
+	\fi}
 \def\@makechapterhead#1{%
-  \vspace*{50\p@}%
-  {\parindent \z@ \raggedright \normalfont 
-    \ifnum \c@secnumdepth >\m@ne
-      \if@mainmatter
-        \Huge \bfseries % \@chapapp\space
-         \thechapter .  #1\par\nobreak
-%        \par\nobreak
-%        \vskip 20\p@
-%      \fi
-%    \fi
-%    \interlinepenalty\@M
-%    \Huge \bfseries #1\par\nobreak
-    \vskip 40\p@
-  }}
-\def\@schapter#1{\if@twocolumn
-                   \@topnewpage[\@makeschapterhead{#1}]%
-                 \else
-                   \@makeschapterhead{#1}%
-                   \@afterheading
-                 \fi}
-\def\@makeschapterhead#1{%
-  \vspace*{50\p@}%
-  {\parindent \z@ \raggedright
-    \normalfont
-    \interlinepenalty\@M
-    \Huge \bfseries  #1\par\nobreak
-    \vskip 40\p@
-  }}
+	\vspace*{50\p@}%
+	{\parindent \z@ \raggedright \normalfont 
+		\ifnum \c@secnumdepth >\m@ne
+			\if@mainmatter
+			\Huge \bfseries % \@chapapp\space
+			\thechapter .  #1\par\nobreak
+			%        \par\nobreak
+			%        \vskip 20\p@
+			%      \fi
+			%    \fi
+			%    \interlinepenalty\@M
+			%    \Huge \bfseries #1\par\nobreak
+			\vskip 40\p@
+			}}
+			\def\@schapter#1{\if@twocolumn
+				\@topnewpage[\@makeschapterhead{#1}]%
+				\else
+				\@makeschapterhead{#1}%
+				\@afterheading
+				\fi}
+			\def\@makeschapterhead#1{%
+				\vspace*{50\p@}%
+				{\parindent \z@ \raggedright
+					\normalfont
+					\interlinepenalty\@M
+					\Huge \bfseries  #1\par\nobreak
+					\vskip 40\p@
+			}}
