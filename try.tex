@@ -1,6 +1,11 @@
 \documentclass{unicam_thesis}
 
+\usepackage{savesym}
+\savesymbol{framed} % Fix per Framed
+\usepackage{minted}
+\restoresymbol{TXF}{framed}  % Fix per Framed
 \usepackage{csquotes} 
+\usepackage{xpatch}
 
 \author{Diego Pasquali}
 \advisor{Prof. Luca Tesei}
@@ -12,6 +17,16 @@
 \course{Laurea in Informatica (Classe L-31)}
 
 \title{La gestione del flusso dei dati nel front-end di applicazioni web complesse}
+
+\usemintedstyle{algol_nu}
+\setminted{fontsize=\small,baselinestretch=1.3}
+
+% Rimuove il box rosso attorno agli errori di Minted
+\makeatletter
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\xpatchcmd{\inputminted}{\minted@fvset}{\minted@fvset\dontdofcolorbox}{}{}
+\makeatother
 
 \begin{document}
     \maketitle
