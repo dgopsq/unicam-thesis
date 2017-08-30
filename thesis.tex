@@ -1,11 +1,13 @@
 \documentclass{unicam_thesis}
 
+\usepackage[font=footnotesize,labelfont=bf]{caption}
 \usepackage{savesym}
 \savesymbol{framed} % Fix per Framed
 \usepackage{minted}
 \restoresymbol{TXF}{framed}  % Fix per Framed
 \usepackage{csquotes} 
 \usepackage{xpatch}
+\usepackage[svgnames]{xcolor}
 
 \author{Diego Pasquali}
 \advisor{Prof. Luca Tesei}
@@ -18,8 +20,9 @@
 
 \title{La gestione del flusso dei dati nel front-end di applicazioni web complesse}
 
-\usemintedstyle{algol_nu}
-\setminted{fontsize=\small,baselinestretch=1.3} 
+% Minted setup
+\usemintedstyle{bw}
+\setminted{fontsize=\footnotesize, baselinestretch=1.3, bgcolor=WhiteSmoke} 
 
 % Rimuove il box rosso attorno agli errori di Minted
 \makeatletter
