@@ -6,6 +6,15 @@ Anche conosciuto come \textit{ECMAScript6}, è una standardizzazione del linguag
 
 In ambito web non tutte le features di ES6 sono disponibili, per questo si utilizzano strumenti come \textit{Babel} o \textit{Webpack} che hanno la funzione di \textit{transpiler}, ossia di compilare codice sorgente da ECMAScript6 a ECMAScript5 che è supportato dalla stragrande maggioranza dei browser.
 
+\section{Webpack}
+Abbiamo parlato nella sezione precedente di Webpack e di come è in grado di trasformare ECMAScript 6 nella sua precedente versione supportata da quasi tutti i browser attuali. Tuttavia questa è solo una piccola caratteristica rispetto a quello che è veramente.
+Nel sito ufficiale Webpack è descritto come \blockquote{A module bundler for modern JavaScript applications.} in pratica si occupa di ricercare tutte le dipendenze dell'applicazione e raggrupparle in un unico file.
+Con Webpack diventa estremamente facile suddividere l'applicazione in files di dipendenze multipli che possono includere da codici sorgenti come moduli Javascript o CSS, fino ad immagini e font.
+E' anche possibile utilizzare \textit{Loader}, ossia dei middleware, che prendono in input delle dipendenze specifiche e le trasformano a seconda di ciò che abbiamo bisogno (Il transpiler da ES6 ad ES5 è esattamente questo prendendo in input ogni file Javascript).
+
+\subsection{Hot Module Replacement}
+Un aspetto molto interessante di Webpack riguarda l'\textit{Hot Module Replacement} (HMR) che si occupa di aggiungere o rimuovere i pacchetti di dipendenze generati nel run-time dell'applicazione senza un aggiornamento completo della pagina. Questo è molto utile in fase di development in quanto consente di mantenere lo stato di una applicazione anche dopo aver effettuato modifiche al sorgente ed avere le nuove caratteristiche disponibili in maniera molto più veloce del normale aggiornando solo ciò che è necessario. 
+
 \section{React}
 React è una libreria scritta da Facebook per la creazione di interfacce utente interattive in maniera funzionale ed altamente scalabile. Si basa sul concetto di "componente" come elemento base fondamentale, ossia un pezzo di interfaccia che ha uno stato proprio ed è riutilizzabile all'interno del servizio. Il concetto funzionale di composizione si adatta benissimo a React: un componente complesso dovrebbe essere formato da componenti più piccoli e agnostici che possono quindi essere riutilizzati in altri componenti complessi.
 
