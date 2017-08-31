@@ -7,6 +7,8 @@
 \restoresymbol{TXF}{framed}  % Fix per Framed
 \usepackage{csquotes} 
 \usepackage{xpatch}
+\usepackage{url}
+\usepackage[square, numbers]{natbib}
 \usepackage[svgnames]{xcolor}
 
 \author{Diego Pasquali}
@@ -19,6 +21,10 @@
 \course{Laurea in Informatica (Classe L-31)}
 
 \title{La gestione del flusso dei dati nel front-end di applicazioni web complesse}
+
+% Bibliografia
+\renewcommand*{\bibfont}{\raggedright}
+\renewcommand{\UrlFont}{\small\tt}
 
 % Minted setup
 \usemintedstyle{bw}
@@ -37,7 +43,7 @@
 
     \input{./tex/introduzione}
     \input{./tex/strumenti} 
-
-    \bibliographystyle{alpha}
+    
+    \bibliographystyle{unsrtnat}
     \bibliography{all}
 \end{document}
