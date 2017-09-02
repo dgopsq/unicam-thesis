@@ -181,7 +181,7 @@ University of Camerino - School of Science ant Technologies]
 		\vspace{0.15cm}%
 		{\rmfamily \large Corso di \@thecourse \par}%
 		\vspace{1.5cm}%
-		\includegraphics[width=2.5cm]{images/stemma}\par%
+		\includegraphics[width=2.5cm]{images/logo}\par%
 		\vspace*{\stretch{7}}%
 		{\rmfamily \LARGE \bfseries \@thetitle \par}%
 		\vspace*{\stretch{7}}%
