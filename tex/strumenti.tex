@@ -8,9 +8,17 @@ In ambito web non tutte le features di ES6 sono disponibili, per questo si utili
 
 \section{Webpack}
 Abbiamo parlato nella sezione precedente di Webpack e di come è in grado di trasformare ECMAScript 6 nella sua precedente versione supportata da quasi tutti i browser attuali. Tuttavia questa è solo una piccola caratteristica rispetto a quello che è veramente.
-Nel sito ufficiale Webpack è descritto come \blockquote{A module bundler for modern JavaScript applications.} in pratica si occupa di ricercare tutte le dipendenze dell'applicazione e raggrupparle in un unico file.
+Nel sito ufficiale Webpack è descritto come \blockquote{A module bundler for modern JavaScript applications.} in pratica si occupa di ricercare tutte le dipendenze dell'applicazione e raggrupparle in un unico file. 
+Per capire a pieno questo concetto è bene analizzare la struttura di una applicazione Javascript moderna che normalmente consideriamo divisa in due parti ben distinte: il codice sorgente di base e i moduli (sia propri che di terzi) che implementano le varie funzioni. Un modulo è una unità dell'applicazione che contiene tutto il necessario per eseguire un aspetto o una particolare funzionalità di essa. Un modulo può includere dentro di se una o più librerie, ossia delle collezioni di funzioni e metodi per risolvere dei particolari problemi. Quello che fa Webpack è analizzare il file Javascript relativo alla nostra applicazione, chiamato "Entry point", e creare un pacchetto con tutti i moduli e le librerie affinché il servizio possa funzionare in maniera corretta.
+
 Con Webpack diventa estremamente facile suddividere l'applicazione in files di dipendenze multipli che possono includere da codici sorgenti come moduli Javascript o CSS, fino ad immagini e font.
 E' anche possibile utilizzare \textit{Loader}, ossia dei middleware, che prendono in input delle dipendenze specifiche e le trasformano a seconda di ciò che abbiamo bisogno (Il transpiler da ES6 ad ES5 è esattamente questo prendendo in input ogni file Javascript).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=10cm]{./images/webpackWorkflow}
+\caption{Rappresentazione del sistema di impacchettamento di Webpack.}
+\end{figure}
 
 \subsection{Hot Module Replacement}
 Un aspetto molto interessante di Webpack riguarda l'\textit{Hot Module Replacement} (HMR) che si occupa di aggiungere o rimuovere i pacchetti di dipendenze generati nel run-time dell'applicazione senza un aggiornamento completo della pagina. Questo è molto utile in fase di development in quanto consente di mantenere lo stato di una applicazione anche dopo aver effettuato modifiche al sorgente ed avere le nuove caratteristiche disponibili in maniera molto più veloce del normale aggiornando solo ciò che è necessario. 
