@@ -147,6 +147,12 @@ Quando parliamo di Virtual DOM parliamo di un'astrazione sopra l'astrazione del 
 
 Il concetto che permette al Virtual DOM di garantire prestazioni maggiori sul DOM reale consiste nell'aggiornamento aggregato. Tutti i cambiamenti effettuati da un evento (che sono i passaggi trovati dall'algoritmo di differenza) vengono aggregati ed il DOM viene ridisegnato solamente una volta.
 
+\begin{figure}[h]
+\centering 
+\includegraphics[width=13cm]{./images/virtualDOMWorkflow}
+\caption{Posizione del Virtual DOM all'interno di una applicazione React.}
+\end{figure}
+
 React implementa il Virtual DOM attraverso \textit{JSX}, una estensione di ECMAScript simile ad XML che permette di scrivere elementi di markup con una sintassi simile all'HTML all'interno dei componenti dell'interfaccia. Portare l'HTML all'interno del codice sorgente Javascript offre dei vantaggi non banali come ad esempio il debugging compile-time degli errori di sintassi durante la costruzione del DOM, la versatilità di avere un linguaggio di scripting per effettuare composizione ed altre azioni dinamiche e sopratutto avere una perfetta separazione tra componenti differenti.
 
 \footnotetext{Il design pattern Observer si struttura di un oggetto chiamato “Subject" che mantiene una lista di altri oggetti dipendenti chiamati "Observers" e li notifica ogni qualvolta il suo stato viene modificato.}
@@ -155,4 +161,6 @@ React implementa il Virtual DOM attraverso \textit{JSX}, una estensione di ECMAS
 React è una libreria \textit{isomorfica}, è in grado di essere eseguita sia lato client che lato server traendo vantaggio da NodeJS ed il fatto che il principale linguaggio di programmazione per entrambi gli ambienti sia sempre Javascript.
 Il vantaggio di eseguire React anche lato server risiede nella prima visualizzazione. In una Single Page Application normale durante il primo caricamento vengono scaricati gli elementi base per la sua esecuzione e successivamente viene eseguito il codice Javascript per il rendering del suo stato iniziale. La seconda fase può essere ulteriormente pesante, basti pensare che possono essere effettuate ulteriori richieste per soddisfare il normale fabbisogno dell'applicazione.
 
-La tecnica del Server-side rendering permette di semplificare questa prima visualizzazione interpretando i componenti React lato server e restituendo una pagina iniziale con la Single Page Application già avviata e fornita di tutti i dati di cui avrebbe normalmente bisogno.
+La tecnica del Server-side rendering permette di semplificare questa prima visualizzazione interpretando i componenti React lato server e restituendo una pagina iniziale con la Single Page Application già avviata e fornita di tutti i dati di cui avrebbe normalmente bisogno. Esistono tuttavia delle problematiche non proprio da sottovalutare: il fatto che in ogni caso l'utente non può comunque effettuare alcun tipo di interazione con l'applicazione finché React non viene scaricato anche dal client; che il primo \textit{TTFB (Time To First Byte)}\footnotemark è generalmente più lento del normale in quanto ci sono più computazioni lato server da effettuare per compilare il codice React; che le computazioni server-side potrebbero non essere veloci come quelle effettuate client-side causando un considerevole calo di prestazioni \cite{GrigoryanOnServerSideRendering}.
+
+\footnotetext{Il Time To First Byte è solitamente utilizzato come misura di quanto veloce un server web risponde ad una richiesta, ed è in pratica la durata che intercorre tra la richiesta effettuata dall'utente e il primo byte di risposta del server \cite{GrahamOnTTFB}.} 

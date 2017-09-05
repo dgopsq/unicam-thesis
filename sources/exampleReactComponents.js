@@ -6,7 +6,7 @@ const HelloWorld = (props) => {
 };
 
 // Componente che si compone con HelloWorld
-const ComposedHelloWorld = (props) => {
+const CompositedHelloWorld = (props) => {
   return (
     <div>
       <HelloWorld />
