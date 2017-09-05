@@ -1,4 +1,4 @@
-function Foo() {
+function Func() {
   var nestedFunction = function() {
     this.thisFunction(); // In questo scope this.thisFunction() non esiste
   }
@@ -6,6 +6,6 @@ function Foo() {
   nestedFunction();
 }
 
-Foo.prototype.thisFunction = function() {
+Func.prototype.thisFunction = function() {
   // ...
 };

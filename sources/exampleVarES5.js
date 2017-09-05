@@ -1,4 +1,4 @@
-function foo() { 
+function func() { 
   var y = 2;
 }
 

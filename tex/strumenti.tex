@@ -45,6 +45,38 @@ Questo capita perché il costrutto \textit{function} ha uno scope proprio, e qui
 
 \footnotetext{Il concetto di immutabilità è un pilastro fondamentale della programmazione funzionale, e rappresenta un oggetto il cui stato non può essere modificato in alcun modo. Avere un elemento immutabile significa che l'unico modo per modificarlo è quello di crearne uno nuovo con le modifiche volute e modificare la referenza a quest'ultimo.}
 
+\subsection{Parametri di default ed a oggetti}
+ES6 ci permette di utilizzare valori predefiniti per i parametri delle funzioni che creiamo. Questi valori di default vengono assegnati quando i normali parametri sono \textit{undefined}. 
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleDefaultParametersES6.js}
+\caption{Esempio di utilizzo dei parametri di default.}
+\end{listing}
+
+\noindent
+Un altro miglioramento apportato da ES6 riguarda gli oggetti passati come parametri. E' ora possibile destrutturare un oggetto direttamente dai parametri durante la definizione di una funzione.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleObjectParameterES6.js}
+\caption{Esempio di destrutturazione di un oggetto passato come parametro.}
+\end{listing}
+
+\subsection{Classi}
+In Javascript non esistono classi, esistono invece oggetti con proprietà particolari che ci permettono di simulare ereditarietà e riusabilità. ES5 non possiede una vera e propria parola chiave per definire una classe, e quindi per creare un oggetto che si comporti come tale partiamo dal costruttore per poi aggiungere i metodi voluti \cite{RylanOnPrototypeInheritance}.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/examplePrototypeInheritanceES5.js}
+\caption{Esempio di una classe in ES5.}
+\end{listing}
+
+\noindent
+ES6 ci mette a disposizione una sintassi molto più comprensibile e versatile per la gestione delle classi, che però fa sempre capo al vecchio concetto di ES5 (non esiste una vera e propria classe quindi, neanche in ES6). 
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleClassES6.js}
+\caption{Esempio di una classe in ES6.}
+\end{listing}
+
 \section{Webpack}
 Abbiamo parlato nella sezione precedente di Webpack e di come è in grado di trasformare ECMAScript 6 nella sua precedente versione supportata da quasi tutti i browser attuali. Tuttavia questa è solo una piccola caratteristica rispetto a quello che è veramente.
 Nel sito ufficiale Webpack è descritto come \blockquote{A module bundler for modern JavaScript applications.} in pratica si occupa di ricercare tutte le dipendenze dell'applicazione e raggrupparle in un unico file. 
