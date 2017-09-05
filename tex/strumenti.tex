@@ -6,7 +6,44 @@ Anche conosciuto come \textit{ECMAScript6}, è una standardizzazione del linguag
 
 In ambito web non tutte le features di ES6 sono disponibili, per questo si utilizzano strumenti come \textit{Babel} o \textit{Webpack} che hanno la funzione di \textit{transpiler}, ossia di compilare codice sorgente da ECMAScript6 a ECMAScript5 che è supportato dalla stragrande maggioranza dei browser.
 
-\subsection{Funzionalità aggiuntive di base}
+Le funzionalità introdotte da ECMAScript6 sono molte, tuttavia qui parleremo solo di quelle che risulteranno propedeutiche per capire i pezzi di codice nei capitoli successivi.
+
+\subsection{Let e Const}
+Una delle features introdotte, che probabilmente è anche una delle più incisive, riguarda l'assegnazione delle variabili. In ES5 la dichiarazione avveniva tramite la keyword \textit{var} ed il loro scope era relativo alla funzione direttamente loro superiore.
+ 
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleVarES5.js}
+\caption{Esempio della dichiarazione di una variabile con \textit{var}.}
+\end{listing}
+
+\noindent
+In ES6 a questa si aggiungono anche \text{let} e \textit{const} il cui scope è relativo al blocco in cui sono posizionate (e non alla funzione, come in \textit{var}). La prima non ha nulla di particolare oltre ciò che abbiamo già detto, la seconda invece dichiara variabili costanti, ossia il cui valore non può mutare.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleLetConstES6.js}
+\caption{Esempio della dichiarazione di variabili con \textit{let} e \textit{const}.}
+\end{listing}
+
+\noindent
+La keyword \textit{const} verrà molto utilizzata nei successivi codici in quanto costituisce un concetto fondamentale dei linguaggi funzionali: l'immutabilità\footnotemark.
+
+\subsection{Arrow Function}
+In ES5 bisogna prestare attenzione all'utilizzo di \textit{this} quando stiamo utilizzando l'espressione \textit{function} in quanto potremmo non ottenere cosa ci aspettiamo.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleShadowThisES5.js}
+\caption{Esempio di comportamento inaspettato di \textit{this}.}
+\end{listing}
+
+\noindent
+Questo capita perché il costrutto \textit{function} ha uno scope proprio, e quindi la variabile \textit{this} viene sovrascritta. Per evitare ciò ES6 ci mette a disposizione le \textit{Arrow Function}, ossia funzioni anonime che non sovrascrivono il \textit{this} ereditato.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleArrowFunctionES6.js}
+\caption{Esempio di \textit{Arrow Function}.}
+\end{listing} 
+
+\footnotetext{Il concetto di immutabilità è un pilastro fondamentale della programmazione funzionale, e rappresenta un oggetto il cui stato non può essere modificato in alcun modo. Avere un elemento immutabile significa che l'unico modo per modificarlo è quello di crearne uno nuovo con le modifiche volute e modificare la referenza a quest'ultimo.}
 
 \section{Webpack}
 Abbiamo parlato nella sezione precedente di Webpack e di come è in grado di trasformare ECMAScript 6 nella sua precedente versione supportata da quasi tutti i browser attuali. Tuttavia questa è solo una piccola caratteristica rispetto a quello che è veramente.

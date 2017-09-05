@@ -3,9 +3,10 @@
 \usepackage[font=footnotesize,labelfont=bf]{caption}
 \usepackage{savesym}
 \savesymbol{framed} % Fix per Framed
-\usepackage{minted}
+\usepackage[newfloat]{minted}
 \restoresymbol{TXF}{framed}  % Fix per Framed
 \usepackage{csquotes} 
+\usepackage{caption}
 \usepackage{xpatch}
 \usepackage[square, numbers]{natbib}
 \usepackage[svgnames]{xcolor}
@@ -26,7 +27,8 @@
 \renewcommand{\UrlFont}{\small\tt}
 
 % Minted setup
-\usemintedstyle{bw}
+\captionsetup[listing]{position=bottom,skip=-7pt}
+\usemintedstyle{manni}
 \setminted{fontsize=\footnotesize, baselinestretch=1.3, bgcolor=WhiteSmoke} 
 
 % Rimuove il box rosso attorno agli errori di Minted
