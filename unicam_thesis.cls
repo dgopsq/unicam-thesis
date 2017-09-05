@@ -89,7 +89,7 @@ University of Camerino - School of Science ant Technologies]
 \RequirePackage[italian]{babel}
 \RequirePackage{colortbl}
 
-\RequirePackage[final]{listings}
+\RequirePackage{listings}
 \definecolor{listingsBackground}{rgb}{0.9,0.9,0.9}
 \lstdefinestyle{xmlCode}{language=XML,frame=tbrl,
 	basicstyle=\scriptsize\ttfamily,keywordstyle=\ttfamily\bf,

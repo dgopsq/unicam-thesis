@@ -3,95 +3,105 @@ Per analizzare le varie architetture presentate dobbiamo prima fare un discorso 
 
 \section{ECMAScript 2015}
 Anche conosciuto come \textit{ECMAScript6}, è una standardizzazione del linguaggio Javascript creata da Ecma International. Questa versione in particolare mette a disposizione features molto utili per scrivere codice funzionale. Possiamo classificare ECMAScript come un linguaggio a sé e differente da Javascript, che in principio doveva essere utilizzato solamente come linguaggio di scripting lato web, ma che ora viene utilizzato come vero e proprio linguaggio di programmazione su ambienti e scale differenti \cite{ECMAScriptDocumentation}.
-
+ 
 In ambito web non tutte le features di ES6 sono disponibili, per questo si utilizzano strumenti come \textit{Babel} o \textit{Webpack} che hanno la funzione di \textit{transpiler}, ossia di compilare codice sorgente da ECMAScript6 a ECMAScript5 che è supportato dalla stragrande maggioranza dei browser.
 
 Le funzionalità introdotte da ECMAScript6 sono molte, tuttavia qui parleremo solo di quelle che risulteranno propedeutiche per capire i pezzi di codice nei capitoli successivi.
 
 \subsection{Let e Const}
-Una delle features introdotte, che probabilmente è anche una delle più incisive, riguarda l'assegnazione delle variabili. In ES5 la dichiarazione avveniva tramite la keyword \textit{var} ed il loro scope era relativo alla funzione direttamente loro superiore.
+Una delle features introdotte, che probabilmente è anche una delle più incisive, riguarda l'assegnazione delle variabili. In ES5 la dichiarazione avveniva tramite la keyword \textit{var} ed il loro scope era relativo alla funzione direttamente loro superiore (codice \ref{exampleVarES5}).
  
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleVarES5.js}
 \caption{Esempio della dichiarazione di una variabile con \textit{var}.}
+\label{exampleVarES5}
 \end{listing}
 
 \noindent
-In ES6 a questa si aggiungono anche \text{let} e \textit{const} il cui scope è relativo al blocco in cui sono posizionate (e non alla funzione, come in \textit{var}). La prima non ha nulla di particolare oltre ciò che abbiamo già detto, la seconda invece dichiara variabili costanti, ossia il cui valore non può mutare.
+In ES6 a questa si aggiungono anche \text{let} e \textit{const} il cui scope è relativo al blocco in cui sono posizionate (e non alla funzione, come in \textit{var}). La prima non ha nulla di particolare oltre ciò che abbiamo già detto, la seconda invece dichiara variabili costanti, ossia il cui valore non può mutare (codice \ref{exampleLetConstES6}).
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleLetConstES6.js}
 \caption{Esempio della dichiarazione di variabili con \textit{let} e \textit{const}.}
+\label{exampleLetConstES6}
 \end{listing}
 
 \noindent
 La keyword \textit{const} verrà molto utilizzata nei successivi codici in quanto costituisce un concetto fondamentale dei linguaggi funzionali: l'immutabilità\footnotemark.
 
 \subsection{Arrow Function}
-In ES5 bisogna prestare attenzione all'utilizzo di \textit{this} quando stiamo utilizzando l'espressione \textit{function} in quanto potremmo non ottenere cosa ci aspettiamo.
+In ES5 bisogna prestare attenzione all'utilizzo di \textit{this} quando stiamo utilizzando l'espressione \textit{function} in quanto potremmo non ottenere cosa ci aspettiamo (codice \ref{exampleShadowThisES5}).
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleShadowThisES5.js}
 \caption{Esempio di comportamento inaspettato di \textit{this}.}
+\label{exampleShadowThisES5}
 \end{listing}
 
 \noindent
-Questo capita perché il costrutto \textit{function} ha uno scope proprio, e quindi la variabile \textit{this} viene sovrascritta. Per evitare ciò ES6 mette a disposizione le \textit{Arrow Function}, ossia funzioni anonime che non sovrascrivono il \textit{this} ereditato.
+Questo capita perché il costrutto \textit{function} ha uno scope proprio, e quindi la variabile \textit{this} viene sovrascritta. Per evitare ciò ES6 mette a disposizione le \textit{Arrow Function}, ossia funzioni anonime che non sovrascrivono il \textit{this} ereditato (codice \ref{exampleArrowFunctionES6}).
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleArrowFunctionES6.js}
 \caption{Esempio di \textit{Arrow Function}.}
+\label{exampleArrowFunctionES6}
 \end{listing} 
 
 \footnotetext{Il concetto di immutabilità è un pilastro fondamentale della programmazione funzionale, e rappresenta un oggetto il cui stato non può essere modificato in alcun modo. Avere un elemento immutabile significa che l'unico modo per modificarlo è quello di crearne uno nuovo con le modifiche volute e modificare la referenza a quest'ultimo.}
 
 \subsection{Parametri predefiniti ed a oggetti}
-ES6 ci permette di utilizzare valori predefiniti per i parametri delle funzioni che creiamo. Questi valori di default vengono assegnati quando i normali parametri sono \textit{undefined}. 
+ES6 ci permette di utilizzare valori predefiniti per i parametri delle funzioni che creiamo. Questi valori di default vengono assegnati quando i normali parametri sono \textit{undefined} (codice \ref{exampleDefaultParametersES6}). 
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleDefaultParametersES6.js}
 \caption{Esempio di utilizzo dei parametri di default.}
+\label{exampleDefaultParametersES6}
 \end{listing}
 
 \noindent
-Un altro miglioramento apportato da ES6 riguarda gli oggetti passati come parametri. E' ora possibile destrutturare un oggetto direttamente dai parametri durante la definizione di una funzione.
+Un altro miglioramento apportato da ES6 riguarda gli oggetti passati come parametri. E' ora possibile destrutturare un oggetto direttamente dai parametri durante la definizione di una funzione (codice \ref{exampleObjectParameterES6}).
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleObjectParameterES6.js}
 \caption{Esempio di destrutturazione di un oggetto passato come parametro.}
+\label{exampleObjectParameterES6}
 \end{listing}
 
 \subsection{Classi}
-In Javascript non esistono classi, esistono invece oggetti con proprietà particolari che ci permettono di simulare ereditarietà e riusabilità. ES5 non possiede una vera e propria parola chiave per definire una classe, e quindi per creare un oggetto che si comporti come tale partiamo dal costruttore per poi aggiungere i metodi voluti \cite{RylanOnPrototypeInheritance}.
+In Javascript non esistono classi ma esistono invece oggetti con proprietà particolari che ci permettono di simulare ereditarietà e riusabilità. ES5 non possiede una vera e propria parola chiave per definire una classe, e quindi per creare un oggetto che si comporti come tale partiamo dal costruttore per poi aggiungere i metodi voluti (codice \ref{examplePrototypeInheritanceES5}). Questa tecnica prende il nome di Prototypal Inheritance \cite{RylanOnPrototypeInheritance}.
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/examplePrototypeInheritanceES5.js}
 \caption{Esempio di una classe in ES5.}
+\label{examplePrototypeInheritanceES5}
 \end{listing}
 
 \noindent
-ES6 ci mette a disposizione una sintassi molto più comprensibile e versatile per la gestione delle classi, che però fa sempre capo al vecchio concetto di ES5 (non esiste una vera e propria classe quindi, neanche in ES6). 
+ES6 ci mette a disposizione una sintassi molto più comprensibile e versatile per la gestione delle classi che rimane però solamente un abbellimento sopra il concetto di Prototypal Inheritance (codice \ref{exampleClassES6}). 
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleClassES6.js}
 \caption{Esempio di una classe in ES6.}
+\label{exampleClassES6}
 \end{listing}
 
 \subsection{Struttura statica dei moduli}
-La struttura dei moduli di ES5, usando ad esempio la sintassi di \textit{CommonJS}\footnotemark, è dinamica ciò significa che l'importazione e l'esportazione avviene in maniera dinamica ed in run-time. Questo comporta che per analizzare le dipendenze di un progetto ed eliminare eventuale codice non utilizzato, è obbligatoriamente necessario eseguire il codice e monitorarne il comportamento.
+La struttura dei moduli di ES5, usando ad esempio la sintassi di \textit{CommonJS}\footnotemark, è dinamica ciò significa che l'importazione e l'esportazione avviene in maniera dinamica ed in run-time (codice \ref{exampleDynamicImportES5}). Questo comporta che per analizzare le dipendenze di un progetto ed eliminare eventuale codice non utilizzato, è obbligatoriamente necessario eseguire il codice e monitorarne il comportamento.
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleDynamicImportES5.js}
 \caption{Esempio di importazione dinamica di un modulo in ES5.} 
+\label{exampleDynamicImportES5}
 \end{listing}
 
 \noindent
-ES6 mette a disposizione un sistema di gestione dei moduli statico. Questo comporta la possibilità di analizzare le dipendenze di un codice in compile-time e la possibilità quindi di eliminare tutto ciò che non viene effettivamente utilizzato.
+ES6 mette a disposizione un sistema di gestione dei moduli statico (codice \ref{exampleImportExportES6}). Questo comporta la possibilità di analizzare le dipendenze di un codice in compile-time e la possibilità quindi di eliminare tutto ciò che non viene effettivamente utilizzato.
 Tuttavia non abbiamo più la libertà dei moduli non nativi e c'è la necessità di attenersi a delle regole come ad esempio l'obbligo di effettuare le importazione e le esportazioni al livello più alto del codice e non all'interno di qualche blocco, e sopratutto non devono essere presenti elementi dinamici (come ad esempio variabili).
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleImportExportES6.js}
-\caption{Esempio di importazione statica di un modulo in ES6.}  
+\caption{Esempio di importazione statica di un modulo in ES6.} 
+\label{exampleImportExportES6} 
 \end{listing}
 
 \footnotetext{CommonJS definisce un formato per l'utilizzo dei moduli su Javascript.}
@@ -113,11 +123,19 @@ E' anche possibile utilizzare \textit{Loader}, ossia dei middleware, che prendon
 \subsection{Hot Module Replacement}
 Un aspetto molto interessante di Webpack riguarda l'\textit{Hot Module Replacement} (HMR) che si occupa di aggiungere o rimuovere i pacchetti di dipendenze generati nel run-time dell'applicazione senza un aggiornamento completo della pagina. Questo è molto utile in fase di development in quanto consente di mantenere lo stato di una applicazione anche dopo aver effettuato modifiche al sorgente ed avere le nuove caratteristiche disponibili in maniera molto più veloce del normale aggiornando solo ciò che è necessario. 
 
+
+
 \subsection{Tree Shaking}
 La tecnica del \textit{Tree Shaking} permette di eliminare il codice inutilizzato all'interno della codebase. Quello che fa Webpack è andare ad analizzare a la struttura di \textit{Import} ed \textit{Export} del sorgente che, come abbiamo detto precedentemente nella sezione riguardante ES6, è statica ossia è possibile analizzarla a \textit{compile-time} senza la necessità di eseguire il codice. Una volta trovati gli elementi che non vengono utilizzati essi vengono classificati come “codice morto" e vengono marcati attraverso adeguati commenti. Webpack non si occupa di eliminare questi elementi ma affida il compito ad un eventuale \textit{Minifier} (come ad esempio \textit{UglifyJS}) che si occupa di ottimizzare il codice Javascript.
 
 \section{React}
-React è una libreria scritta da Facebook per la creazione di interfacce utente interattive in maniera funzionale ed altamente scalabile. Si basa sul concetto di "componente" come elemento base fondamentale, ossia un pezzo di interfaccia che ha uno stato proprio ed è riutilizzabile all'interno del servizio. Il concetto funzionale di composizione si adatta benissimo a React: un componente complesso dovrebbe essere formato da componenti più piccoli e agnostici che possono quindi essere riutilizzati in altri componenti complessi.
+React è una libreria scritta da Facebook per la creazione di interfacce utente interattive in maniera funzionale ed altamente scalabile. Si basa sul concetto di "componente" come elemento base fondamentale, ossia un pezzo di interfaccia che ha uno stato proprio ed è riutilizzabile all'interno del servizio (codice \ref{exampleReactComponents}). Il concetto funzionale di composizione si adatta benissimo a React: un componente complesso dovrebbe essere formato da componenti più piccoli e agnostici che possono quindi essere riutilizzati in altri componenti complessi.
+
+\begin{listing}[ht]
+\inputminted{jsx}{sources/exampleReactComponents.js}
+\caption{Esempio di composizione tra componenti React.}
+\label{exampleReactComponents}
+\end{listing}
 
 Viene utilizzato in produzione sia da Facebook che da Instagram e fa uso di diverse tecnologie all'avanguardia come il \textit{Virtual DOM} ed il \textit{Server-side Rendering} \cite{WheelerOnReact}.
 
