@@ -36,7 +36,7 @@ In ES5 bisogna prestare attenzione all'utilizzo di \textit{this} quando stiamo u
 \end{listing}
 
 \noindent
-Questo capita perché il costrutto \textit{function} ha uno scope proprio, e quindi la variabile \textit{this} viene sovrascritta. Per evitare ciò ES6 ci mette a disposizione le \textit{Arrow Function}, ossia funzioni anonime che non sovrascrivono il \textit{this} ereditato.
+Questo capita perché il costrutto \textit{function} ha uno scope proprio, e quindi la variabile \textit{this} viene sovrascritta. Per evitare ciò ES6 mette a disposizione le \textit{Arrow Function}, ossia funzioni anonime che non sovrascrivono il \textit{this} ereditato.
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleArrowFunctionES6.js}
@@ -76,6 +76,25 @@ ES6 ci mette a disposizione una sintassi molto più comprensibile e versatile pe
 \inputminted{Javascript}{sources/exampleClassES6.js}
 \caption{Esempio di una classe in ES6.}
 \end{listing}
+
+\subsection{Struttura statica dei moduli}
+La struttura dei moduli di ES5, usando ad esempio la sintassi di \textit{CommonJS}\footnotemark, è dinamica ciò significa che l'importazione e l'esportazione avviene in maniera dinamica ed in run-time. Questo comporta che per analizzare le dipendenze di un progetto ed eliminare eventuale codice non utilizzato, è obbligatoriamente necessario eseguire il codice e monitorarne il comportamento.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleDynamicImportES5.js}
+\caption{Esempio di importazione dinamica di un modulo in ES5.} 
+\end{listing}
+
+\noindent
+ES6 mette a disposizione un sistema di gestione dei moduli statico. Questo comporta la possibilità di analizzare le dipendenze di un codice in compile-time e la possibilità quindi di eliminare tutto ciò che non viene effettivamente utilizzato.
+Tuttavia non abbiamo più la libertà dei moduli non nativi e c'è la necessità di attenersi a delle regole come ad esempio l'obbligo di effettuare le importazione e le esportazioni al livello più alto del codice e non all'interno di qualche blocco, e sopratutto non devono essere presenti elementi dinamici (come ad esempio variabili).
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/exampleImportExportES6.js}
+\caption{Esempio di importazione statica di un modulo in ES6.}  
+\end{listing}
+
+\footnotetext{CommonJS definisce un formato per l'utilizzo dei moduli su Javascript.}
 
 \section{Webpack}
 Abbiamo parlato nella sezione precedente di Webpack e di come è in grado di trasformare ECMAScript 6 nella sua precedente versione supportata da quasi tutti i browser attuali. Tuttavia questa è solo una piccola caratteristica rispetto a quello che è veramente.
