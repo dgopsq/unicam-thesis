@@ -12,16 +12,16 @@ La gestione del flusso dei dati all'interno di una applicazione web è un argome
 \begin{figure}[h]
 \centering 
 \includegraphics[width=12.7cm]{./images/reactPopularity}
-\caption{Grafico della popolarità di React (generato da \href{https://www.hntrends.com/}{hntrends.com})}
+\caption{Grafico della popolarità di React (generato da \href{https://www.hntrends.com/}{hntrends.com}).}
 \end{figure}
 
 \noindent
 Codebase vaste come potrebbero essere quelle di Facebook, Twitter o YouTube necessitano di una architettura di fondo che sia altamente chiara e comprensibile per evitare confusione tra i vari servizi.
 Come vedremo successivamente, architetture datate come l'MVC pur essendo molto efficienti lato back-end non rendono allo stesso modo lato front-end, dove c'è una quantità maggiore di azioni che l'utente può intraprendere e che possono avere ripercussioni differenti su più componenti diversi all'interno di una View.
-In questo documento verrà discussa l'alternativa attualmente più gettonata che è quella dell'architettura a flusso unidirezionale, implementata in prima battuta da Flux e successivamente ottimizzata da Redux.
+In questo documento verranno discusse le alternative attualmente più gettonate come quella a flusso unidirezionale, implementata in prima battuta da Flux e successivamente ottimizzata da Redux.
 
 \section{Lo stato dell'arte}
-Possiamo paragonare la creazione della prima applicazione web con la messa online del primo sito da parte di Tim Berners-Lee nel 1991 dal Cern di Ginevra \cite{HuffingtonpostFirstWebsite}. Stiamo tuttavia parlando di una applicazione statica costruita solamente in HTML dove gli unici input dell'utente erano limitati al navigare i documenti. Più avanti con l'evoluzione di HTML si iniziarono a vedere i primi elementi interattivi come bottoni e campi di testo. Tuttavia la svolta vera e propria avvenne il 5 maggio del 1995 con l'avvento di Javascript \cite{W3cJavascriptHistory}, il linguaggio di scripting che porto un primo accenno di dinamicità all'interno delle pagine web e che anche adesso è alla base di tutte le tecnologie front-end più nuove e potenti. Da qui in poi l'evoluzione andò avanti in maniera esponenziale partendo da un utilizzo banale del linguaggio fino a giungere alla situazione attuale con framework ed architetture complesse.
+Possiamo paragonare la creazione della prima applicazione web con la messa online del primo sito da parte di Tim Berners-Lee nel 1991 dal Cern di Ginevra \cite{HuffingtonpostFirstWebsite}. Stiamo tuttavia parlando di una applicazione statica costruita solamente in HTML dove gli unici input dell'utente erano limitati al navigare i documenti. Più avanti con l'evoluzione di HTML si iniziarono a vedere i primi elementi interattivi come bottoni e campi di testo. Tuttavia la svolta vera e propria avvenne il 5 maggio del 1995 con l'avvento di Javascript \cite{W3cJavascriptHistory}, il linguaggio di scripting che portò un primo accenno di dinamicità all'interno delle pagine web e che anche adesso è alla base di tutte le tecnologie front-end più nuove e potenti. Da qui in poi l'evoluzione andò avanti in maniera esponenziale partendo da un utilizzo banale del linguaggio fino a giungere alla situazione attuale con framework ed architetture complesse.
 
 \subsection{Single-page application}
 Andando avanti con gli anni si sono tentati diversi approcci per la creazione di applicazioni web. Un problema fondamentale è stato quello di dove posizionare la logica del servizio che fino a quel momento è stata sempre considerata come un lavoro del server specialmente per la mancanza di tecnologie adeguate lato client.
@@ -34,12 +34,12 @@ Andando avanti con gli anni si sono tentati diversi approcci per la creazione di
 
 Con la maturazione degli strumenti client-side si è aperta una porta ad un nuovo tipo di applicazioni: le \textit{Single-page application} (SPA). Una Single-page application è una applicazione web contenuta in una sola pagina e che sviluppa tutta la sua logica nel client.
 
-Non è da poco che questo tipo di applicazioni hanno preso piede, tuttavia intorno agli anni 2000 non era Javascript la prima scelta come linguaggio di programmazione ma Flash e Java Applets. Solo più avanti quest'ultimo è riuscito a diventare competitivo abbastanza da deprecare entrambi i suoi predecessori diversi motivi \cite{mikowski2013single}:
+Non è da poco che questo tipo di applicazioni hanno preso piede, tuttavia intorno agli anni 2000 non era Javascript la prima scelta come linguaggio di programmazione ma Flash e Java Applets. Solo più avanti è riuscito a diventare competitivo abbastanza da deprecare entrambi i suoi predecessori diversi motivi \cite{mikowski2013single}:
 
 \begin{itemize}
     \item \textbf{Velocità di esecuzione} Javascript non ha bisogno di alcun ambiente esterno per essere eseguito consentendo di eliminare un livello di complessità all'applicazione.
     \item \textbf{Nessuna dipendenza esterna} Gli utenti non hanno bisogno di scaricare nessuna dipendenza esterna e quindi nessun plugin per eseguire il servizio.
-    \item \textbf{Controllo sulla pagina web} Javascript ha pieno controllo sulla pagina web dove viene eseguito in quanto è tutt'uno con essa. Al contrario, Flash e Java, vengono inseriti in maniera “embedded" nella pagina e non hanno la possibilità di interagire con essa mi maniera diretta causando un'esperienza meno fluida ed interattiva per l'utente.
+    \item \textbf{Controllo sulla pagina web} Javascript ha pieno controllo sulla pagina web dove viene eseguito in quanto è tutt'uno con essa. Al contrario, Flash e Java, vengono inseriti in maniera “embedded" nella pagina e non hanno la possibilità di interagire con essa in maniera diretta causando un'esperienza meno fluida ed interattiva per l'utente.
 \end{itemize}
 
 \begin{figure}[h]
