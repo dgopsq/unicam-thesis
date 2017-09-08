@@ -8,5 +8,6 @@ _minted-thesis/
 *.log
 *.ilg
 *.toc
+*.lol
 
 .DS_Store
