@@ -4,7 +4,6 @@ function MyClass(value) {
 
 MyClass.prototype.aMethod = function() {
   // Questo è un metodo della classe
-  // ...
 };
 
 var Instance = new MyClass('value');

@@ -1,11 +1,11 @@
-function Func() {
-  var nestedFunction = function() {
-    this.thisFunction(); // In questo scope this.thisFunction() non esiste
-  }
+function Foo() {
+  this.answer = 42;
 
-  nestedFunction();
+  setInterval(function() {
+    // Dentro questa callback il contesto è cambiato
+    // e this.answer non esiste più
+    console.log(this.answer);
+  }, 1000);
 }
 
-Func.prototype.thisFunction = function() {
-  // ...
-};
+var bar = new Foo(); // Il risultato sarà "undefined"

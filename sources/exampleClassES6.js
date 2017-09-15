@@ -5,7 +5,6 @@ class MyClass {
 
   aMethod() {
     // Questo è un metodo della classe
-    // ...
   };
 }
 
