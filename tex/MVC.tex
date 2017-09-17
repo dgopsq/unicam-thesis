@@ -1,0 +1,31 @@
+\chapter{Architettura MVC}
+L'architettura MVC, per la prima volta presentata nel 1988 da Glenn E. Krasner e Stephen T. Pope nel loro articolo “A Cookbook for Using the Model-View-Controller User Interface Paradigm in Smalltalk-80", rappresenta un caposaldo della programmazione e una delle architetture più utilizzate sia lato front-end che back-end.
+
+L'elemento base su cui si fonda MVC è la modularità del codice e la portabilità dei vari componenti che formano l'applicazione. Per ottenere ciò si è teorizzato di dividere quest'ultima in tre parti ben distinte: le parti che ne rappresentano la struttura astratta, il modo in cui queste vengono presentate e il modo con cui l'utente ci interagisce. Questa divisione permette l'isolamento delle unità funzionali dell'applicazione in modo da facilitarne il debugging e la scalabilità, oltre al fatto di migliorare la riusabilità dei componenti creati seguendo questo pattern \cite{KrasnerAndPopeOnMVC}.
+
+\section{Divisione dei compiti}
+La divisione dei compiti nell'architettura MVC, come è stato detto precedentemente, avviene attraverso Model, View e Controller. Questi tre elementi fondamentali dell'applicazione sono interconnessi e ognuno ha un compito specifico, isolato dagli altri, a cui deve attenersi.
+
+\begin{wrapfigure}{r}{7cm}
+\centering 
+\includegraphics[width=5.5cm]{./images/MVCdefault}
+\caption{Architettura MVC classica.}
+\end{wrapfigure}
+
+Il Model rappresenta i dati che formano tutta o una parte dello stato dell'applicazione e come essi mutano. E' possibile immaginare questo componente come un oggetto che identifica un elemento specifico del servizio e ne descrive come il suo stato muta ad una eventuale azione. Il Model è “cieco", nel senso che tutto ciò che fa è mantenere dati e descrivere come essi mutano non avendo in alcun modo né la possibilità di conoscere in che modo influenzano l'applicazione né la capacità autonoma di effettuare modifiche su di essi se non sotto specifica istruzione del Controller.
+
+I componenti che compongono la View hanno l'obiettivo di rappresentare i dati del Model in una forma facilmente comprensibile all'utente finale. Nell'architettura standard MVC il ruolo della View era piuttosto dinamico e organizzava i suoi aggiornamenti discutendo direttamente con il Model ed ottenendo i dati da esso, lasciando al Controller il compito di gestire gli input dell'utente. In questo modo l'architettura era organizzata con il Model come componente centrale togliendo importanza al Controller.
+
+\noindent
+Andando avanti nel tempo e con la comparsa di sempre più framework ispirati a questo pattern, l'evoluzione ha cambiato leggermente le regole standard, dettando che la View non dovrebbe avere un ruolo “attivo" di lettura degli aggiornamenti del Model, ma tutto dovrebbe passare attraverso il Controller, il quale dovrebbe essere l'unico elemento che implementi una logica \cite{HopkinsOnMVCandPHP}.
+
+\begin{wrapfigure}{l}{7cm}
+\centering 
+\includegraphics[width=5.5cm]{./images/MVCpassiveview}
+\caption{Architettura MVC recente.}
+\end{wrapfigure}
+
+Il Controller, nella versione classica dell'architettura MVC, si occupa solo ed esclusivamente di gestire gli input forniti dall'utente trasmettendo le informazioni rievute al Model. E' bene tenere presente che ogni Controller viene eseguito solamente a seguito di una azione che l'utente ha intrapreso dalla View e ciò costituisce un punto cardine in quanto sottolinea che quest'ultima non è solo un template statico.
+Nelle versioni più recenti dell'architettura MVC invece, il Controller è la parte centrale incaricata di organizzare e collegare le altre due. Non solo si occupa di gestire i vari eventi ed input generati dall'utente, ma si occupa anche di fornire e filtrare i dati del Model alla View, sottolineando la loro natura in questo caso statica.
+
+\section{MVC nel front-end}
