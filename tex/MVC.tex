@@ -17,7 +17,7 @@ Il Model rappresenta i dati che formano tutta o una parte dello stato dell'appli
 I componenti che compongono la View hanno l'obiettivo di rappresentare i dati del Model in una forma facilmente comprensibile all'utente finale. Nell'architettura standard MVC il ruolo della View era piuttosto dinamico e organizzava i suoi aggiornamenti discutendo direttamente con il Model ed ottenendo i dati da esso, lasciando al Controller il compito di gestire gli input dell'utente. In questo modo l'architettura era organizzata con il Model come componente centrale togliendo importanza al Controller.
 
 \noindent
-Andando avanti nel tempo e con la comparsa di sempre più framework ispirati a questo pattern, l'evoluzione ha cambiato leggermente le regole standard, dettando che la View non dovrebbe avere un ruolo “attivo" di lettura degli aggiornamenti del Model, ma tutto dovrebbe passare attraverso il Controller, il quale dovrebbe essere l'unico elemento che implementi una logica \cite{HopkinsOnMVCandPHP}.
+Andando avanti nel tempo e con la comparsa di sempre più framework ispirati a questo pattern, l'evoluzione ha cambiato leggermente le regole standard dettando che la View dovrebbe avere il meno possibile un ruolo “attivo" di lettura degli aggiornamenti del Model, e che la gran parte delle informazioni dovrebbe passare attraverso il Controller che diventa così l'elemento principale addetto alla logica \cite{HopkinsOnMVCandPHP}.
 
 \begin{wrapfigure}{l}{7cm}
 \centering 
@@ -25,7 +25,28 @@ Andando avanti nel tempo e con la comparsa di sempre più framework ispirati a q
 \caption{Architettura MVC recente.}
 \end{wrapfigure}
 
-Il Controller, nella versione classica dell'architettura MVC, si occupa solo ed esclusivamente di gestire gli input forniti dall'utente trasmettendo le informazioni rievute al Model. E' bene tenere presente che ogni Controller viene eseguito solamente a seguito di una azione che l'utente ha intrapreso dalla View e ciò costituisce un punto cardine in quanto sottolinea che quest'ultima non è solo un template statico.
-Nelle versioni più recenti dell'architettura MVC invece, il Controller è la parte centrale incaricata di organizzare e collegare le altre due. Non solo si occupa di gestire i vari eventi ed input generati dall'utente, ma si occupa anche di fornire e filtrare i dati del Model alla View, sottolineando la loro natura in questo caso statica.
+Il Controller, nella versione classica dell'architettura MVC, si occupa solo ed esclusivamente di gestire gli input forniti dall'utente, trasmettendo le informazioni ricevute al Model. E' bene tenere presente che ogni Controller viene eseguito solamente a seguito di una azione che l'utente ha intrapreso dalla View e che quest'ultima ha un collegamento diretto con il Model comunicando attraverso il pattern Observer per adeguarsi ai vari cambiamenti dello stato.
+Nelle versioni più recenti dell'architettura MVC invece, il Controller assume sempre di più la parte centrale incaricata di organizzare e collegare le altre due. Non solo si occupa di gestire i vari eventi ed input generati dall'utente, ma si occupa anche di fornire e filtrare i dati del Model alla View, sottolineando la loro natura in questo caso più statica.
 
 \section{MVC nel front-end}
+L'architettura MVC è nata per risolvere il problema dell'organizzazione e della struttura del codice in applicazioni desktop scritte in Smalltalk-80. La sua versatilità e potenza ha tuttavia fatto si che anche tutt'ora questo paradigma venga utilizzato nella stragrande maggioranza delle applicazioni, specialmente lato back-end.
+Con la nascita delle SPA e con lo spostamento della logica sempre più verso il front-end tuttavia si sono presentati diversi problemi con l'architettura MVC classica i quali hanno spinto quest'ultima a modificarsi ed adattarsi al nuovo ambiente.
+
+Lato front-end l'architettura MVC assume diverse forme a seconda del tipo di caratteristiche di cui abbiamo bisogno. Molti framework in Javascript tentano di includere il lavoro del Controller all'interno della View, altri al contrario rendono quest'ultima completamente passiva spostando tutta la logica al Controller,  aggiungono semplicemente nuovi livelli di divisione. Queste differenti architetture derivate vengono associate ad una macro-categoria chiamata \textit{MV*} (l'asterisco al posto della “C" di Controller sta a significare che questo è l'elemento che viene solitamente sostituito o modificato) dalla quale è possibile estrapolare due tra i più famosi ed utilizzati paradigmi lato front-end: MVP e MVVM \cite{OsmaniOnJSFrameworks}.
+
+\subsection{MVP}
+L'architettura MVP nasceva nel 1990 nell'azienda Talingent e veniva utilizzata per lo sviluppo di applicazioni in C++ e Java \cite{Potel1996mvp}. E' stato successivamente ripresa da vari framework Javascript tra cui uno dei più famosi è sicuramente Backbone.js.
+Mentre nella versione classica di MVC, la View osservava il Model e si modificava di conseguenza, l'evoluzione di questo pattern ha fatto si che il ruolo di osservatore passasse sempre più al Controller, ora chiamato Presenter, che costituisce un vero e proprio elemento centrale ed intermediario, eliminando quindi completamente la logica dalla View.
+
+\begin{figure}[h]
+\centering 
+\vspace*{0.5cm}
+\includegraphics[width=13cm]{./images/MVPworkflow}
+\caption{Architettura MVP.}
+\vspace*{0.5cm} 
+\end{figure}
+
+\noindent
+I vantaggi di questa architettura consistono: una maggiore facilità nel testare il codice in quanto il Presenter incorpora tutta la logica di presentazione e può essere quindi testato al posto della View in maniera indipendente; una completa separazione della View dal resto dei componenti cosa che ne favorisce il riutilizzo all'interno dell'applicazione \cite{OsmaniOnJSFrameworks}.
+
+\subsection{MVVM}
