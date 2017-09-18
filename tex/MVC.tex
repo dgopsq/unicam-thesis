@@ -50,3 +50,27 @@ Mentre nella versione classica di MVC, la View osservava il Model e si modificav
 I vantaggi di questa architettura consistono: una maggiore facilità nel testare il codice in quanto il Presenter incorpora tutta la logica di presentazione e può essere quindi testato al posto della View in maniera indipendente; una completa separazione della View dal resto dei componenti cosa che ne favorisce il riutilizzo all'interno dell'applicazione \cite{OsmaniOnJSFrameworks}.
 
 \subsection{MVVM}
+L'architettura MVVM è stata per prima definita da Microsoft in un post del 2005 di John Grossman \cite{GossmanOnMVVM}. E' nata come una architettura per la creazione di applicazioni con Windows Presentation Foundation (WPF) ed è stata successivamente implementata con un discreto successo in framework Javascript come Knockout.js.
+
+Questo paradigma si basa completamente sulla sincronizzazione della View attraverso il pattern Observer. La logica dell'applicazione quindi questa volta è posizionata quasi interamente nella View e, mentre il Model si comporta come da norma solamente da “memoria", questa ne osserva i cambiamenti e si aggiorna di conseguenza. La vera differenza è che in questo caso le azioni dell'utente sono gestite direttamente dalla View, in quanto il vincolo posto sui dati è bidirezionale (modificando l'elemento in input nella View viene automaticamente modificato il valore referenziato).
+La View tuttavia non può leggere direttamente i dati di cui ha bisogno dal Model, i quali nella maggior parte dei casi sono grezzi e hanno bisogno di essere filtrati e lavorati. Per questo è stato creato un nuovo componente, che sostituisce il Controller, chiamato ViewModel il quale si pone come livello passivo intermedio tra Model e View, ed estrapola i dati utili dal primo e li rende disponibili in maniera comprensibile al secondo, oltre anche a fornire funzioni utili alla gestione dello stato e degli eventi \cite{OsmaniOnJSFrameworks}.
+
+\begin{figure}[h]
+\centering 
+\vspace*{0.5cm}
+\includegraphics[width=13cm]{./images/MVVMworkflow}
+\caption{Architettura MVVM.}
+\vspace*{0.5cm} 
+\end{figure}
+
+\noindent
+Uno dei punti forti dell'architettura MVVM implementata dai più recenti framework Javascript riguarda l'astrazione della View per l'utilizzo dei vincoli di dati bidirezionali (Two-ways Data Bindings) del ViewModel direttamente all'interno del DOM.
+
+%\begin{listing}[ht]
+%\inputminted{jsx}{sources/exampleMVVMDataBinding.js}
+%\caption{Esempio di vincolo di dati nel DOM.}
+%\label{exampleMVVMDataBinding}
+%\end{listing}
+
+%\noindent
+%Questi facilitano enormemente l'implementazione dell'interfaccia e consentono di ridurre in maniera considerevole la logica da implementare a parte all'interno del ViewModel.

@@ -1,0 +1,1 @@
+<input data-bind="value: contactName, valueUpdate: 'keyup'" />
