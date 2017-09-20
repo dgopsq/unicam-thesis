@@ -47,7 +47,8 @@ Mentre nella versione classica di MVC, la View osservava il Model e si modificav
 \end{figure}
 
 \noindent
-I vantaggi di questa architettura consistono: una maggiore facilità nel testare il codice in quanto il Presenter incorpora tutta la logica di presentazione e può essere quindi testato al posto della View in maniera indipendente; una completa separazione della View dal resto dei componenti cosa che ne favorisce il riutilizzo all'interno dell'applicazione \cite{OsmaniOnJSFrameworks}.
+MVP è un paradigma utilizzato specialmente per applicazioni a livello enterprise, con View complesse e grandi quantità di interazioni da parte dell'utente in quanto tutta la logica risiede nel Presenter rendendo l'applicazione semplice da testare e staccando la View dal resto rendendola particolarmente riutilizzabile all'interno del codice \cite{OsmaniOnJSFrameworks}.
+Tuttavia le differenze tra le architetture MVC e MVP sono solo a livello semantico, interpretando cioè diversamente un componente comune ad entrambe. Molti problemi più radicati che troviamo nella prima quindi si vengono comunque a presentare nella seconda.
 
 \subsection{MVVM}
 L'architettura MVVM è stata per prima definita da Microsoft in un post del 2005 di John Grossman \cite{GossmanOnMVVM}. E' nata come una architettura per la creazione di applicazioni con Windows Presentation Foundation (WPF) ed è stata successivamente implementata con un discreto successo in framework Javascript come Knockout.js.
@@ -66,11 +67,13 @@ La View tuttavia non può leggere direttamente i dati di cui ha bisogno dal Mode
 \noindent
 Uno dei punti forti dell'architettura MVVM implementata dai più recenti framework Javascript riguarda l'astrazione della View per l'utilizzo dei vincoli di dati bidirezionali (Two-ways Data Bindings) del ViewModel direttamente all'interno del DOM.
 
-%\begin{listing}[ht]
-%\inputminted{jsx}{sources/exampleMVVMDataBinding.js}
-%\caption{Esempio di vincolo di dati nel DOM.}
-%\label{exampleMVVMDataBinding}
-%\end{listing}
+\begin{listing}[ht]
+\inputminted{jsx}{sources/exampleMVVMDataBinding.js}
+\caption{Esempio di vincolo di dati nel DOM.}
+\label{exampleMVVMDataBinding}
+\end{listing}
 
-%\noindent
-%Questi facilitano enormemente l'implementazione dell'interfaccia e consentono di ridurre in maniera considerevole la logica da implementare a parte all'interno del ViewModel.
+\noindent
+Da una parte questi facilitano enormemente l'implementazione dell'interfaccia e consentono di ridurre in maniera considerevole la logica da implementare a parte all'interno del ViewModel, dall'altra sono considerati un tipo di programmazione obsoleta che mischia la logica con il linguaggio di markup.
+
+\section{MVC e il flusso dei dati}
