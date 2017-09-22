@@ -1,4 +1,6 @@
 _minted-thesis/
+node_modules/
+.vscode/
 
 *.aux
 *.bbl
