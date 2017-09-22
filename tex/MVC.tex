@@ -43,6 +43,7 @@ Mentre nella versione classica di MVC, la View osservava il Model e si modificav
 \vspace*{0.5cm}
 \includegraphics[width=13cm]{./images/MVPworkflow}
 \caption{Architettura MVP.}
+\label{MVPworkflow}
 \vspace*{0.5cm} 
 \end{figure}
 
@@ -76,4 +77,42 @@ Uno dei punti forti dell'architettura MVVM implementata dai più recenti framewo
 \noindent
 Da una parte questi facilitano enormemente l'implementazione dell'interfaccia e consentono di ridurre in maniera considerevole la logica da implementare a parte all'interno del ViewModel, dall'altra sono considerati un tipo di programmazione obsoleta che mischia la logica con il linguaggio di markup.
 
-\section{MVC e il flusso dei dati}
+\section{Il flusso dei dati}
+MVC, insieme alle sue architetture derivate, è un paradigma nel quale il flusso di dati avviene in maniera bidirezionale. L'utente esegue un'azione da uno specifico componente della View, la quale viene interpretata ed eseguita dalla relativa sezione dove risiede la logica dell'interfaccia (ad esempio quindi dal Controller se si parla di MVC classico o dal Presenter nel MVP) la quale apporterà le dovute modifiche ai dati presenti all'interno del Model causando una notifica da parte di quest'ultimo a tutti gli altri componenti della View segnalando l'avvenuto cambiamento. Il flusso, come possiamo vedere nell'immagine \ref{MVPworkflow}, avviene quindi sia dal Model alla View che vice versa.
+
+\subsection{Applicatione esempio}
+Per l'analisi più in dettaglio di ciò che è stato appena descritto, verrà utilizzata una applicazione esempio fine a se stessa costruita utilizzando il framework \textit{Backbone.js} e quindi l'architettura MVP. Tutte le affermazioni che verranno fatte tuttavia non riguarderanno solo ed esclusivamente questa architettura, ma si estenderanno anche alle altre derivate da MVC, in quando descriveranno problematiche radicate nel paradigma.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=14cm]{./images/bookshelfApplication1}
+\caption{Applicatione esempio per un database di libri.}
+\label{bookshelfApplication1}
+\end{figure}
+
+L'applicazione (figura \ref{bookshelfApplication1}) rappresenta un semplice database di libri con la possibilità di aggiungerne di nuovi tramite il form in alto, ed eliminare quelli presenti andando con il mouse sopra un libro e cliccando alla comparsa del simbolo “×".
+Il codice è scritto utilizzando la sintassi e il sistema di moduli di ES6 usando Webpack con Babel per creare il file Javascript compilato e completo di dipendenze. Anche il CSS per comodità è stato aggiunto nel pacchetto ed automaticamente applicato alla pagina dell'applicazione attraverso i loaders \textit{css-loader}\footnote{https://github.com/webpack-contrib/style-loader} e \textit{style-loader}\footnote{https://github.com/webpack-contrib/css-loader}.
+Le uniche due dipendenze richieste da \textit{Backbone.js} consistono in: \textit{jQuery}\footnote{https://jquery.com/}, libreria per la manipolazione del DOM e altre utili funzioni come animazioni, gestione degli eventi e chiamate Ajax; \textit{Underscore.js}\footnote{http://underscorejs.org/}, una raccolta di metodi per gestione di oggetti, array e collezioni varie attraverso tecniche utilizzate nel paradigma di programmazione funzionale.
+
+Non ci sono collegamenti espliciti ad un eventuale back-end in quanto tale aspetto non è direttamente collegato al discorso di questo documento, tuttavia alcuni riferimenti riguardo come comunicare nel modo più giusto con esso attraverso \textit{Backbone.js} verranno fatti in seguito.
+
+\subsection{Model}
+Il Model di una applicazione scritta con \textit{Backbone.js} è un oggetto che estende \mintinline{javascript}{Backbone.Model} e che racchiude dentro di se dei dati strutturati. Nel caso dell'applicazione presentata, il Model più basilare descrive lo stato di un singolo libro che è composto da due parametri: “title" e “author", dando loro un valore di default.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/applicationMVCBookModel.js}
+\caption{Model dell'applicazione relativo ad un libro.} 
+\label{applicationMVCModel} 
+\end{listing}
+
+\noindent
+Il modo migliore per descrivere lo stato dell'applicazione tuttavia è attraverso una lista di libri, è necessario quindi creare un tipo di Model che rappresenti questo concetto in maniera opportuna. \textit{Backbone.js} mette a disposizione la classe \mintinline{javascript}{Backbone.Collection} che rappresenta esattamente una “collezione di Model" e gestisce in maniera automatica tutti gli elementi al suo interno.
+
+\begin{listing}[ht]
+\inputminted{Javascript}{sources/applicationMVCBookshelfCollection.js}
+\caption{Model dell'applicazione relativo ad una lista di libri.} 
+\label{applicationMVCBookCollection} 
+\end{listing}
+
+\noindent
+La classe Collection è implementata come se fosse una normale lista ed ogni qualvolta lei o un suo elemento viene modificato, si occupa di propagare il corrispettivo evento a tutte le View ad essa collegate in modo da permettere loro di aggiornarsi di conseguenza.
