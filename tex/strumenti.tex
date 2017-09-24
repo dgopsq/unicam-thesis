@@ -4,12 +4,12 @@ Per analizzare le varie architetture presentate dobbiamo prima fare un discorso 
 \section{ECMAScript 2015}
 Anche conosciuto come \textit{ECMAScript6}\footnote{https://www.ecma-international.org/ecma-262/6.0}, è una standardizzazione del linguaggio Javascript creata da Ecma International. Questa versione in particolare mette a disposizione features molto utili per scrivere codice che si avvicina al paradigma di programmazione funzionale. Possiamo classificare ECMAScript come un linguaggio a sé e differente da Javascript, che in principio doveva essere utilizzato solamente come linguaggio di scripting lato client, ma che ora viene utilizzato come vero e proprio linguaggio di programmazione su ambienti e scale differenti.
  
-Quando si parla di applicazioni web, e più in particolare del loro front-end, ci si riferisce tuttavia a quel codice Javascript che viene scaricato ed interpretato dal browser dell'utente. Sorge quindi il serio problema di far eseguire un codice su una macchina il cui interprete potrebbe non supportarlo a dovere, ad esempio nel caso in cui si utilizzi ES6 in un browser che supporta solo uno standard più vecchio. Proprio per questo si utilizzano strumenti come \textit{Babel}\footnote{https://babeljs.io} che hanno la funzione di \textit{transpiler}, ossia di compilare codice sorgente Javascript dallo standard ECMAScript6 a ECMAScript5 che è supportato dalla stragrande maggioranza dei browser.
+Quando si parla di applicazioni web, e più in particolare del loro front-end, ci si riferisce tuttavia a quel codice Javascript che viene scaricato ed interpretato dal browser dell'utente. Sorge quindi il serio problema di far eseguire un codice su una macchina il cui interprete potrebbe non supportarlo a dovere, ad esempio nel caso in cui si utilizzi ES6 in un browser che supporta solo uno standard più vecchio. Proprio per questo si utilizzano strumenti come \textit{Babel}\footnote{https://babeljs.io} che hanno la funzione di \textit{transpiler}, ossia di compilare codice sorgente Javascript da uno standard nuovo e poco supportato ad ECMAScript5 (o inferiore) che è implementato dalla stragrande maggioranza dei browser.
 
 Le funzionalità introdotte da ECMAScript6 sono molte, tuttavia qui parleremo solo di quelle che risulteranno propedeutiche per capire il codice dei capitoli successivi.
 
 \subsection{Let e Const}
-Una delle features introdotte, che probabilmente è anche una delle più incisive, riguarda l'assegnazione delle variabili. In ES5 la dichiarazione avveniva tramite la keyword \textit{var} ed il loro scope era relativo alla funzione direttamente loro superiore.
+Una delle features introdotte, che probabilmente è anche una delle più incisive, riguarda l'assegnazione delle variabili. In ES5 la dichiarazione avveniva tramite la keyword \textit{var} ed il loro scope era relativo alla funzione direttamente loro superiore. E' bene notare che questi tipi di variabili sono legate al contesto (e quindi alla funzione) dove sono definite e non al blocco \mintinline{text}{{ /* ... */ }}, a differenza di molti altri linguaggi di programmazione.
  
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleVarES5.js}
@@ -17,8 +17,7 @@ Una delle features introdotte, che probabilmente è anche una delle più incisiv
 \label{exampleVarES5}
 \end{listing}
 
-\noindent
-In ES6 a questa si aggiungono anche \text{let} e \textit{const} il cui scope è relativo al blocco in cui sono posizionate (e non alla funzione, come in \textit{var}). La prima non ha nulla di particolare oltre ciò che abbiamo già detto, la seconda invece dichiara variabili costanti, ossia il cui valore non può mutare.
+In ES6 a questa si aggiungono anche \text{let} e \textit{const} il cui scope è relativo al blocco in cui sono posizionate (e non alla funzione, come in \textit{var}). La prima non ha nulla di particolare oltre ciò che abbiamo già detto, la seconda invece dichiara variabili costanti, ossia il cui valore non può mutare attraverso una riassegnazione e non possono essere ridichiarate.
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleLetConstES6.js}
@@ -27,7 +26,7 @@ In ES6 a questa si aggiungono anche \text{let} e \textit{const} il cui scope è 
 \end{listing}
 
 \noindent
-La keyword \textit{const} verrà molto utilizzata nei successivi codici in quanto permette di utilizzare un concetto fondamentale dei linguaggi funzionali: l'immutabilità\footnotemark.
+La keyword \textit{const} verrà molto utilizzata nei successivi codici in quanto permette di utilizzare un concetto fondamentale dei linguaggi funzionali: l'immutabilità\footnotemark, oltre al fatto che utilizzare delle variabili non mutabili riduce il rischio di errori e semplifica il debugging del codice.
 
 \subsection{Arrow Function}
 In Javascript la parola chiave \textit{this} si riferisce al contesto dove viene eseguita. Può essere in parte paragonata al modo in cui nella programmazione ad oggetti ci si riferisce all'istanza su cui stiamo lavorando. La grossa differenza tuttavia è che in Javascript cambiare il contesto e quindi avere un valore del \textit{this} inaspettato è estremamente semplice e comporta non poche problematiche nell'analisi di un codice.
@@ -39,7 +38,7 @@ In Javascript la parola chiave \textit{this} si riferisce al contesto dove viene
 \end{listing}
 
 \noindent
-Questo capita perché il contesto dove viene eseguito il \textit{this} non è più quello dell'oggetto \textit{Foo}, ma un contesto separato ristretto alla funzione \textit{setInterval}. Per evitare problemi di questo genere (che ovviamente non sono relativi solo alla funzione \textit{setInterval} ma ad un vasto numero di altri casi particolari) ES6 mette a disposizione le \textit{Arrow Function}, ossia funzioni anonime sintatticamente più corte che non sovrascrivono il \textit{this} del contesto precedente permettendo la scrittura di un codice ad oggetti più sicuro e senza comportamenti inaspettati.
+L'errore del codice \ref{exampleShadowThisES5} capita perché il contesto dove viene eseguito il \textit{this} non è più quello dell'oggetto \textit{Foo}, ma un contesto separato ristretto alla funzione \textit{setInterval}. Per evitare problemi di questo genere (che ovviamente non sono relativi solo alla funzione \textit{setInterval} ma ad un vasto numero di altri casi particolari) ES6 mette a disposizione le \textit{Arrow Function}, ossia funzioni anonime sintatticamente più corte che non sovrascrivono il \textit{this} del contesto precedente permettendo la scrittura di un codice ad oggetti più sicuro e senza comportamenti inaspettati.
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleArrowFunctionES6.js}
@@ -86,7 +85,7 @@ ES6 mette a disposizione una sintassi molto più comprensibile e versatile per l
 \end{listing}
 
 \subsection{Struttura statica dei moduli}
-La struttura dei moduli di ES5, usando ad esempio la sintassi di \textit{CommonJS}\footnote{http://requirejs.org/docs/commonjs.html}, è dinamica ciò significa che l'importazione e l'esportazione è mutabile a seconda dell'esecuzione del codice ed avviene quindi a run-time. 
+La struttura dei moduli di ES5, usando ad esempio la sintassi di \textit{CommonJS}\footnote{http://requirejs.org/docs/commonjs.html}, è dinamica ciò significa che l'importazione e l'esportazione è mutabile a seconda dell'esecuzione del codice ed avviene quindi a run-time. Questo comporta che per analizzare le dipendenze di un progetto ed eliminare eventuali elementi non utilizzati, sia necessario eseguire il codice e monitorarne il comportamento in quanto non sappiamo a priori quali importazioni ed esportazioni verranno eseguite.
 
 \begin{listing}[ht]
 \inputminted{Javascript}{sources/exampleDynamicImportES5.js}
@@ -95,8 +94,6 @@ La struttura dei moduli di ES5, usando ad esempio la sintassi di \textit{CommonJ
 \end{listing}
 
 \noindent
-Questo comporta che per analizzare le dipendenze di un progetto ed eliminare eventuali elementi non utilizzati, sia necessario eseguire il codice e monitorarne il comportamento in quanto non sappiamo a priori quali importazioni ed esportazioni verranno eseguite.
-
 ES6 mette a disposizione un sistema di gestione dei moduli statico. Questo comporta la possibilità di analizzare le dipendenze di un codice a compile-time in quanto non sono presenti elementi dinamici che obbligano l'esecuzione del codice, con la conseguenza quindi di poter eliminare tutto ciò che non viene effettivamente utilizzato senza eseguire una singola riga di Javascript.
 Ovviamente in questo caso non è più possibile posizionare l'importazione o l'esportazione di un modulo all'interno di un costrutto o utilizzare variabili.
 
@@ -138,6 +135,7 @@ React è una libreria scritta da Facebook per la creazione di interfacce utente 
 \label{exampleReactComponents}
 \end{listing}
 
+\noindent
 Viene utilizzato in produzione sia da Facebook che da Instagram e fa uso di diverse tecnologie all'avanguardia come il \textit{Virtual DOM} ed il \textit{Server-side Rendering} \cite{WheelerOnReact}.
 
 \subsection{Virtual DOM}
@@ -156,6 +154,7 @@ Il concetto che permette al Virtual DOM di garantire prestazioni maggiori sul DO
 \vspace*{0.5cm}
 \end{figure}
 
+\noindent
 React implementa il Virtual DOM attraverso \textit{JSX}, una estensione di ECMAScript simile ad XML che permette di scrivere elementi di markup con una sintassi simile all'HTML all'interno dei componenti dell'interfaccia. Portare l'HTML all'interno del codice sorgente Javascript offre dei vantaggi non banali come ad esempio il debugging compile-time degli errori di sintassi durante la costruzione del DOM, la versatilità di avere un linguaggio di scripting per effettuare composizione ed altre azioni dinamiche e sopratutto avere una perfetta separazione tra componenti differenti.
 
 \subsection{Server-side rendering}
