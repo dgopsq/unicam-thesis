@@ -1,6 +1,6 @@
 // BookshelfView.js
 const BookshelfView = Backbone.View.extend({
-  el: '#js-bookshelf',
+  // ...
 
   events: {
     'click .js-remove': 'removeBook'

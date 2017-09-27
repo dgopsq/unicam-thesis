@@ -3,16 +3,17 @@ Il \textit{Flusso dei dati} nel front-end di una applicazione web rappresenta tu
 
 Un'interfaccia utente quindi mette a disposizione dell'utilizzatore una immensa quantità di interazioni, sia volontarie che involontarie, che cambiano in continuazione lo stato dell'applicazione e che devono essere opportunamente gestite e sincronizzate. La struttura del codice diventa quindi prioritaria al fine di ottenere un prodotto che sia soddisfacente a livello di prestazioni e che riesca a mantenere un adeguato livello di scalabilità.
 
-L'obbietto principale di questa tesi consiste nel fornire una presentazione delle varie architetture e dei vari approcci utilizzati attualmente per risolvere il problema della gestione del flusso di dati in applicazioni web con una codebase solitamente grande e complessa, comparando i loro relativi vantaggi e svantaggi. Verrà effettuata un'analisi approfondita del paradigma \textit{MVC} (Model - View - Controller) lato front-end, spiegando le grosse differenze che si vengono a creare rispetto al suo utilizzo lato back-end e alla sua scarsa scalabilità derivata dall'uso di un flusso di dati bidirezionale tra Model e View. Verranno poi discusse le architetture di \textit{Flux} e di \textit{Redux} che implementano un flusso di dati unidirezionale per ovviare ai problemi del paradigma MVC.
+L'obiettivo principale di questa tesi consiste nel fornire una presentazione delle varie architetture e dei vari approcci utilizzati attualmente per risolvere il problema della gestione del flusso di dati in applicazioni web complesse, comparando i loro relativi vantaggi e svantaggi. Verrà effettuata un'analisi approfondita del paradigma \textit{MVC} (Model - View - Controller) lato front-end, spiegando le grosse differenze che si vengono a creare rispetto al suo utilizzo lato back-end e alla sua scarsa scalabilità derivata dall'uso di un flusso di dati bidirezionale tra Model e View. Verranno poi discusse le architetture di \textit{Flux} e di \textit{Redux} che implementano un flusso di dati unidirezionale per ovviare ai problemi del paradigma MVC.
 L'analisi coprirà le differenze di implementazione delle due librerie, di come Flux si basi su una struttura complessa ma estremamente funzionale oltre che versatile, e di come Redux la semplifichi attraverso pattern della programmazione funzionale per ottenere lo stesso livello di scalabilità con una semplicità decisamente maggiore.
 
 \section{Background}
-La gestione del flusso dei dati all'interno di una applicazione web è un argomento molto discusso dopo l'avvento di tecnologie front-end sempre più complesse e potenti come \textit{React} o \textit{Angular} ma sopratutto con la crescita smisurata della complessità dei servizi online. La causa di ciò è la necessità di avere un codice che sia il più possibile scalabile ed il più facilmente testabile a prescindere dal numero di features che verranno successivamente aggiunte. 
+La gestione del flusso dei dati all'interno di una applicazione web è un argomento molto discusso dopo l'avvento di tecnologie front-end sempre più complesse e potenti come \textit{React} o \textit{Angular} ma sopratutto con la crescita smisurata della complessità dei servizi online (Figura \ref{reactPopularity}). La causa di ciò è la necessità di avere un codice che sia il più possibile scalabile ed il più facilmente testabile a prescindere dal numero di features che verranno successivamente aggiunte. 
 
 \begin{figure}[h]
 \centering 
 \includegraphics[width=12.7cm]{./images/reactPopularity}
 \caption{Grafico della popolarità di React (generato da \href{https://www.hntrends.com/}{hntrends.com}).}
+\label{reactPopularity}
 \end{figure}
 
 \noindent
@@ -24,15 +25,16 @@ In questo documento verranno discusse le alternative attualmente più gettonate 
 Possiamo paragonare la creazione della prima applicazione web con la messa online del primo sito da parte di Tim Berners-Lee nel 1991 dal Cern di Ginevra \cite{HuffingtonpostFirstWebsite}. Stiamo tuttavia parlando di una applicazione statica costruita solamente in HTML dove gli unici input dell'utente erano limitati al navigare i documenti. Più avanti con l'evoluzione di HTML si iniziarono a vedere i primi elementi interattivi come bottoni e campi di testo. Tuttavia la svolta vera e propria avvenne il 5 maggio del 1995 con l'avvento di Javascript \cite{W3cJavascriptHistory}, il linguaggio di scripting che portò un primo accenno di dinamicità all'interno delle pagine web e che anche adesso è alla base di tutte le tecnologie front-end più nuove e potenti. Da qui in poi l'evoluzione andò avanti in maniera esponenziale partendo da un utilizzo banale del linguaggio fino a giungere alla situazione attuale con framework ed architetture complesse.
 
 \subsection{Single-page application}
-Andando avanti con gli anni si sono tentati diversi approcci per la creazione di applicazioni web. Un problema fondamentale è stato quello di dove posizionare la logica del servizio che fino a quel momento è stata sempre considerata come una parte del server specialmente per la mancanza di tecnologie adeguate lato client.
+Andando avanti con gli anni si sono tentati diversi approcci per la creazione di applicazioni web. Un problema fondamentale è stato quello di dove posizionare la logica del servizio che fino a quel momento è stata sempre considerata come una parte del server specialmente per la mancanza di tecnologie adeguate lato client (Figura \ref{noSPA}).
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=10cm]{./images/noSPA}
 \caption{Esempio di una applicazione con la logica nel server.}
+\label{noSPA}
 \end{figure}
 
-Con la maturazione degli strumenti client-side si è aperta una porta ad un nuovo tipo di applicazioni: le \textit{Single-page application} (SPA). Una Single-page application è una applicazione web contenuta in una sola pagina e che sviluppa tutta la sua logica nel client.
+Con la maturazione degli strumenti client-side si è aperta una porta ad un nuovo tipo di applicazioni: le \textit{Single-page application} (SPA). Una Single-page application è una applicazione web contenuta in una sola pagina e che sviluppa tutta la sua logica nel client (Figura \ref{yesSPA}).
 
 Non è da poco che questo tipo di applicazioni hanno preso piede, tuttavia intorno agli anni 2000 non era Javascript la prima scelta come linguaggio di programmazione ma Flash e Java Applets. Solo più avanti è riuscito a diventare competitivo abbastanza da deprecare entrambi i suoi predecessori per diversi motivi \cite{mikowski2013single}:
 
@@ -46,6 +48,7 @@ Non è da poco che questo tipo di applicazioni hanno preso piede, tuttavia intor
 \centering
 \includegraphics[width=10cm]{./images/yesSPA} 
 \caption{Esempio di una applicazione SPA.}
+\label{yesSPA}
 \end{figure}
 
 \noindent
@@ -62,7 +65,7 @@ La necessità di avere struttura più solida lato front-end, specialmente per ap
 Javascript ha a disposizione un numero considerevolmente alto di framework MVC, e la maggior parte di questi tendono a sviluppare questa architettura in maniera leggermente differente, con i propri vantaggi e svantaggi a seconda dei cambiamenti che apportano e del tipo di applicazione che si deve costruire.
 Una di queste è MVP (Model - View - Presenter) utilizzata da \textit{Backbone.js}\footnote{http://backbonejs.org}. In questa il Presenter, che sostituisce il Controller, ha una responsabilità maggiore di quest'ultimo e oltre che gestire gli eventi dell'utente si occupa di fornire i dati necessari alla generazione della View. Un'altra architettura derivata da MVC è MVVM (Model - View - ViewModel), utilizzata da framework come \textit{Knockout}\footnote{http://knockoutjs.com}, in cui il ViewModel si occupa di mantenere i dati del Model (che sono grezzi) nella forma richiesta dalla View, ed espone a quest'ultima metodi e funzioni per la gestione dello stato dell'applicazione \cite{ChauhanFrontendArchitectures}.
 
-Ancora una volta tuttavia ci troviamo di fronte ad un muro, dove le architetture venutesi a creare sono tante ma tutte derivate da MVC traendone i difetti. Il problema più grande di questo paradigma è la comunicazione bidirezionale: una View, tramite il Controller, modifica diversi Model i quali a loro volta aggiornano le relative View. Tenendo presente che stiamo parlando di applicazioni complesse e quindi con un grande numero di componenti, questo genera un effetto cascata di modifiche tra i vari Model e View causando una codebase molto difficile da gestire ed analizzare. 
+Ancora una volta tuttavia ci troviamo di fronte ad un muro, dove le architetture venutesi a creare sono tante ma tutte derivate da MVC, traendone i difetti. Il problema più grande di questo paradigma è la comunicazione bidirezionale: una View, tramite il Controller, modifica diversi Model i quali a loro volta aggiornano le relative View. Tenendo presente che stiamo parlando di applicazioni complesse e quindi con un grande numero di componenti, questo genera un effetto cascata di modifiche tra i vari Model e View causando una codebase molto difficile da gestire ed analizzare. 
 
 Per la prima volta a questo punto si inizia a discutere di flusso di dati in maniera attiva e diretta riconoscendolo come difetto principale del modello MVC e trovando in React la libreria perfetta per risolverlo \cite{SalihefendicFluxVsMVC}.
 
