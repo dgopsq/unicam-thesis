@@ -156,7 +156,7 @@ La gestione degli eventi è uno dei compiti più delicati del Presenter. Esiston
 
 \noindent
 Gli eventi del primo tipo vengono gestiti all'interno del metodo \mintinline{text}{initialize()}, attraverso la funzione \mintinline{text}{View.listenTo()} passando ad essa il Model o la Collection da osservare (è possibile utilizzare \mintinline{text}{this.collection} o \mintinline{text}{this.model} a seconda del tipo di Model assegnato alla View al suo avvio), il tipo di evento e la relativa funzione che dovrà essere eseguita.
-Per la gestione degli eventi che provengono dalla View invece si utilizza l'oggetto \mintinline{text}{events} specificando il tipo di evento da controllare, il selettore per identificare l'elemento vincolato nel DOM e la funzione da chiamare all'innesco dell'evento. \textit{Backbone.js} si occuperà poi di assegnare e gestire questi eventi a ciascun elemento del DOM selezionato, risolvendo anche il classico problema di assegnare eventi ad elementi creati successivamente in maniera dinamica.
+Per la gestione degli eventi che provengono dalla View invece si utilizza l'oggetto \mintinline{text}{events} specificando il tipo di evento da controllare, il selettore per identificare l'elemento vincolato nel DOM e la funzione da chiamare all'innesco dell'evento (Codice \ref{applicationMVCPresenterEvents}). \textit{Backbone.js} si occuperà poi di assegnare e gestire questi eventi a ciascun elemento del DOM selezionato, risolvendo anche il classico problema di assegnare eventi ad elementi creati successivamente in maniera dinamica.
 
 \begin{listing}[ht]
 \inputminted{javascript}{sources/applicationMVCPresenterEvents.js}
