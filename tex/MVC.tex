@@ -88,6 +88,7 @@ Da una parte questi facilitano enormemente l'implementazione dell'interfaccia e 
 MVC, insieme alle sue architetture derivate, è un paradigma nel quale il flusso di dati avviene in maniera bidirezionale. L'utente esegue un'azione dalla View, che viene interpretata ed eseguita dalla relativa sezione dove risiede la logica dell'interfaccia (ad esempio quindi dal Controller se si parla di MVC classico o dal Presenter nel MVP) la quale apporterà le dovute modifiche ai dati presenti all'interno del Model causando una notifica da parte di quest'ultimo a tutti gli altri componenti della View segnalando l'avvenuto cambiamento. Il flusso, come possiamo vedere nell'immagine \ref{MVPworkflow}, avviene quindi sia dal Model alla View che vice versa.
 
 \subsection{Analisi dell'applicazione}
+\label{ExampleApplicationMVC}
 Per analizzare più in dettaglio ciò che è stato appena descritto, verrà utilizzata una applicazione esempio fine a se stessa costruita utilizzando il framework \textit{Backbone.js} e quindi l'architettura MVP. Tutte le affermazioni che verranno fatte tuttavia non riguarderanno solo ed esclusivamente questa architettura, ma si estenderanno anche alle altre derivate da MVC, in quando descriveranno problematiche radicate nel paradigma.
 
 \begin{figure}[h]
@@ -98,12 +99,12 @@ Per analizzare più in dettaglio ciò che è stato appena descritto, verrà util
 \end{figure}
 
 L'applicazione\footnote{Codice completo a https://github.com/diegopq/unicam-thesis-examples.} nella Figura \ref{bookshelfApplication1} rappresenta un semplice database di libri con la possibilità di aggiungerne di nuovi tramite il form in alto, ed eliminare quelli presenti andando con il mouse sopra un libro e cliccando alla comparsa del simbolo “×".
-Il codice è scritto utilizzando la sintassi e il sistema di moduli di ES6 usando Webpack con Babel per creare il file Javascript compilato e completo di dipendenze. Anche il CSS per comodità è stato aggiunto nel pacchetto ed automaticamente applicato alla pagina dell'applicazione attraverso i loaders \textit{css-loader}\footnote{https://github.com/webpack-contrib/style-loader} e \textit{style-loader}\footnote{https://github.com/webpack-contrib/css-loader}.
+Il codice è scritto utilizzando la sintassi e il sistema di moduli di ES6 usando Webpack con Babel (in coppia con il plugin \textit{Env preset}\footnote{https://babeljs.io/docs/plugins/preset-env}, utilizzato per determinare automaticamente la versione di ES utilizzata) per creare il file Javascript compilato e completo di dipendenze. Anche il CSS per comodità è stato aggiunto nel pacchetto ed automaticamente applicato alla pagina dell'applicazione attraverso i loaders \textit{css-loader}\footnote{https://github.com/webpack-contrib/style-loader} e \textit{style-loader}\footnote{https://github.com/webpack-contrib/css-loader}.
 Le uniche due dipendenze richieste da \textit{Backbone.js} consistono in: \textit{jQuery}\footnote{https://jquery.com/}, libreria per la manipolazione del DOM che mette a disposizione altre utili funzioni come animazioni, gestione degli eventi e chiamate Ajax; \textit{Underscore.js}\footnote{http://underscorejs.org/}, una raccolta di metodi per gestione di oggetti, array e collezioni varie attraverso tecniche utilizzate nel paradigma di programmazione funzionale.
 
 Di seguito verranno analizzate le sezioni fondamentali dell'applicazione con le relative parti di codice più importanti per capire come questo framework riesca a gestire la problematica del flusso di dati.
 
-\subsubsection{Model}
+\subsubsection*{Model}
 Il Model di una applicazione scritta con \textit{Backbone.js} è un oggetto che estende \mintinline{text}{Backbone.Model} e che racchiude dentro di sé dei dati strutturati. Nel caso dell'applicazione presentata, il Model più basilare descrive lo stato di un singolo libro che è composto da due parametri: “title" e “author", dando loro un valore di default (Codice \ref{applicationMVCModel}).
 
 \begin{listing}[ht]
@@ -124,7 +125,7 @@ La classe Collection è implementata come se fosse una normale collezione di ele
 Ogni qualvolta questa lista o un suo elemento viene modificato, la stessa si occupa di propagare il corrispettivo evento a tutte le View ad essa collegate in modo da permettere loro di aggiornarsi di conseguenza.
 Viene poi creata un'istanza di questa collezione, popolata con dei libri di default letti dal file JSON \mintinline{text}{db.json} ed esportata ottenendo così un Singleton\footnote{Il “Singleton” è un design pattern che restringe ad uno il numero massimo di istanze che una classe può avere. E' utilizzato molto spesso quando c'è bisogno di avere un oggetto condiviso globalmente all'interno di una applicazione.} che rappresenta l'intero stato dell'applicazione condiviso globalmente tra tutti i componenti.
 
-\subsubsection{View}
+\subsubsection*{View}
 Una View in \textit{Backbone.js} corrisponde al codice HTML dell'applicazione (Codice \ref{applicationMVCView}). Oltre che gestire questo, tuttavia, permette di definire dei piccoli “modelli” all'interno di un tag \mintinline{text}{<script type='text/template'>} che verranno poi popolati in modo dinamico attraverso un \textit{Template engine}, ossia una libreria che combina un template con un modello di dati, come ad esempio \textit{Mustache}\footnote{https://mustache.github.io} o \textit{EJS}\footnote{http://ejs.co}.
 
 In questa applicazione viene utilizzato \textit{Underscore.js}, che è già una dipendenza di default dell'applicazione e mette a disposizione un piccolo sistema di templating basilare.
@@ -135,7 +136,7 @@ In questa applicazione viene utilizzato \textit{Underscore.js}, che è già una 
 \label{applicationMVCView} 
 \end{listing}
 
-\subsubsection{Presenter}
+\subsubsection*{Presenter}
 L'oggetto che estende \mintinline{text}{Backbone.View} è il componente centrale di \text{Backbone.js} e rappresenta il Presenter nell'architettura MVP. Ha un ruolo centrale sia all'interno dell'applicazione per le sue innumerevoli funzioni, sia nell'architettura in quanto si pone tra gli altri due componenti e li coordina in maniera attiva.
 
 \begin{listing}[ht]
