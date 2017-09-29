@@ -5,7 +5,7 @@ E' stato spiegato come MVC gestisce la problematica del flusso dei dati attraver
 Flux è un'architettura recente creata da Facebook che struttura il front-end di una applicazione in modo che il flusso dei dati dall'innesco di un evento fino alle sue ripercussioni nell'interfaccia segua un'unica direzione.
 Questo pattern, essendo molto astratto, non ha delle vere e proprie dipendenze ed è possibile applicarlo a qualsiasi tipo di applicazione con qualsivoglia linguaggio. E' tuttavia nato per strutturare applicazioni React e quindi perfezionato per tale libreria.
 
-La struttura di tale paradigma si divide in tre parti fondamentali: il \textit{Dispatcher}, lo \textit{Store} e la \textit{View}. Opzionalmente esiste un altro componente chiamato \textit{Action Creator} che si occupa di emanare le varie azioni disponibili.
+La struttura di tale paradigma si divide in quattro parti fondamentali: il \textit{Dispatcher}, gli \textit{Store}, le \textit{View} e le \textit{Action}.
 
 \begin{figure}[h]
 \centering
@@ -21,10 +21,10 @@ In questa architettura la logica è divisa in due parti: ciò che riguarda gli e
 
 \subsection{I componenti}
 \label{FluxComponents}
-Flux considera nella sua architettura quattro elementi fondamentali: Le \textit{Actions}, il \textit{Dispatcher}, gli \textit{Stores} e le \textit{View}.
+Flux considera nella sua architettura quattro elementi fondamentali: Le \textit{Action}, il \textit{Dispatcher}, gli \textit{Stores} e le \textit{View}.
 
 \subsubsection*{Action}
-Le Actions sono la moneta di scambio dell'architettura. Queste consistono generalmente in un oggetto composto da due elementi:
+Le Action sono la moneta di scambio dell'architettura e vengono propagate dalle View (attraverso il Dispatcher) agli Store che le utilizzeranno per apportare modifiche a se stessi. Queste consistono generalmente in un oggetto composto da due elementi:
 
     \begin{itemize}
         \item \textbf{Nome}, che rappresenta lo scopo dell'azione da effettuare, ed è una stringa come ad esempio \mintinline{text}{AddArticle} o \mintinline{text}{RemoveUser}. 
@@ -32,10 +32,10 @@ Le Actions sono la moneta di scambio dell'architettura. Queste consistono genera
     \end{itemize}
 
 \noindent
-Tutte gli eventi che modificano lo stato esistenti nell'applicazione devono essere descritti sotto forma di Action. In Flux qualsiasi cosa non sia un'azione non può verificarsi.
+Tutti gli eventi esistenti che modificano lo stato dell'applicazione devono essere descritti sotto forma di Action. In Flux qualsiasi cosa non sia un'azione non può verificarsi.
 
 \subsubsection*{Dispatcher}
-Il Dispatcher nell'architettura Flux è il componente che ha il compito di distribuire le azioni agli Stores. È sostanzialmente un registro di callback all'interno degli Stores, e non ha una vera e propria logica sua fungendo quindi solo da trasmettitore. La sua particolarità è che qualsiasi azione riceva, viene trasmessa poi ad ogni callback registrata lasciando a quest'ultima il compito di analizzare l'azione e decidere se effettuare cambiamenti o meno.
+Il Dispatcher nell'architettura Flux è il componente che ha il compito di distribuire le Action agli Stores. È sostanzialmente un registro di callback, e non ha una vera e propria logica sua fungendo quindi solo da trasmettitore. La sua particolarità è che qualsiasi azione riceva, viene trasmessa poi ad ogni callback registrata lasciando a quest'ultima il compito di analizzare l'azione e decidere se effettuare cambiamenti o meno.
 
 \begin{listing}[ht]
 \inputminted{javascript}{sources/fluxDispatcherExample.js}
@@ -66,6 +66,7 @@ La View è formata da componenti React strutturati presumibilmente con il patter
 Utilizzando questa strategia si assicura un corretto flusso dei dati, in cui l'unico punto di ingresso è il componente contenitore all'inizio della catena.
 
 \subsection{Analisi dell'applicazione}
+\label{FluxApplication}
 Per avere un esempio pratico di questa architettura verrà implementata di nuovo l'applicazione presentata nella Sezione \ref{ExampleApplicationMVC}, questa volta attraverso React e Flux.
 In questo caso oltre che la normale sintassi di ES6 c'è anche bisogno di compilare il codice JSX all'interno di questa in modo da ottenere i componenti React desiderati, per questo motivo verrà utilizzato anche il plugin di Babel \textit{React Preset}\footnote{https://babeljs.io/docs/plugins/preset-react}.
 Vengono utilizzati due tipi di configurazioni per Webpack: \mintinline{text}{webpack.dev.js} in fase di development, più veloce ma che genera un codice non ottimizzato; \mintinline{text}{webpack.prod.js} in fase di produzione, più lenta che genera però un codice più leggero e veloce.
@@ -146,4 +147,18 @@ L'ultimo componente che viene preso in esame è lo Store, implementato nel file 
 \end{listing}
 
 \noindent
-Analizzando il Codice \ref{applicationFluxStore}, troviamo all'interno del costruttore della classe il metodo \mintinline{text}{BookshelfDispatcher.register()} che prende come parametro la funzione dello Store da registrare nel Dispatcher. La funzione che verrà aggiunta è \mintinline{text}{_registerActions()} la quale prende come parametro un'Action e, come da prassi, la getta in pasto ad un costrutto \mintinline{text}{Switch} che la eseguirà sullo Store corrente.
+Analizzando il Codice \ref{applicationFluxStore} è possibile notare che lo Store viene creato estendendo la classe \mintinline{text}{EventEmitter}, questo perché ogni Store ha la necessità di mandare eventi all'interno dell'applicazione ogni qualvolta lo stato viene modificato. Troviamo poi all'interno del costruttore della classe il metodo \mintinline{text}{BookshelfDispatcher.register()} che prende come parametro la funzione dello Store da registrare nel Dispatcher. La funzione che verrà aggiunta è \mintinline{text}{_registerActions()} la quale prende come parametro un'Action e, come da prassi, la getta in pasto ad un costrutto \mintinline{text}{Switch} che la eseguirà sullo Store corrente.
+
+
+\subsection{Flux ed il flusso dei dati}
+Come possiamo notare dalla Sezione \ref{FluxApplication}, l'architettura di Flux rispetto a quella MVC è molto più strutturata, ed i dati e gli eventi devono sottostare a delle regole e dei percorsi più rigidi, cosa che permette di avere un maggiore controllo sui comportamenti dell'applicazione e sui cambiamento dello stato. In Flux gli effetti collaterali derivati dall'aggiornamento dello stato sono molto facili da controllare, e grazie alla rigidità dell'architettura anche in numero molto inferiore. Quando uno Store riceve un'Action, ed il suo stato viene modificato, emette un evento grazie al quale le View dell'applicazione si modificheranno di conseguenza. Questo è l'unico, ed inevitabile, caso in cui la modifica dello stato causa un'ulteriore esecuzione di codice. 
+Tuttavia il vantaggio di Flux non sta solo in questo, ma anche nel gestire in modo chiaro (Ma non perfetto, come vedremo nella Sezione \ref{ReduxArchitecture}) le dipendenze tra due Store differenti. In un'architettura MV* non esiste un vero e proprio approccio che permette di eseguire un cambiamento solo se ne è stato fatto un'altro in precedenza, se non in maniera imperativa e notificando manualmente il componente dipendente. In Flux questo problema è risolto semplicemente dichiarando la dipendenza all'interno dello Store tramite la funzione \mintinline{text}{Dispatcher.waitFor()} descritta nella Sezione \ref{FluxComponents}.
+Un altro elemento a favore di Flux riguarda sempre lo Store e come questo integri in se stesso tutti i possibili cambiamenti che lo stato possa fare. Ciò fa sì che nel caso in cui si debba analizzare un certo cambiamento, la sua posizione all'interno del codice sia immediata. Questo impedisce la creazione di cambi di stato nascosti o non previsti, classici durante lo sviluppo di applicazioni MV* \cite{boduch2016flux}.
+
+Tutto ciò espresso fino ad ora è indubbiamente un punto a favore a livello di architettura, di gestione dei dati e degli eventi, tuttavia a livello implementativo possono sorgere dei difetti non trascurabili.
+In Flux lo Store notifica le View del cambiamento del proprio stato, senza specificare cosa è stato cambiato come ad esempio potrebbe capitare in altre architetture. Questo comporta un lavoro più oneroso da parte della View, la quale potrebbe dover aggiornare, anche inutilmente, più componenti del necessario. Proprio per questo motivo React è considerato un'ottima libreria per Flux in quanto riesce ad aggiornare solamente il DOM che viene effettivamente modificato.
+Un'altra problematica sempre riguardo gli Store è quando il loro numero e la loro complessità diventa elevata, e di conseguenza diventa molto difficile gestire le dipendenze delle Action nonostante la presenza del Dispatcher. Queste dipendenze possono diventare sempre più numerose, complesse e difficili da gestire all'aumentare del numero di features dell'applicazione.
+Un altro punto a sfavore di Flux riguarda le Action. Ogni cosa che accade all'interno dell'applicazione deve essere descritta con un'Action, ed facile immaginare che una singola feature può dunque crearne un numero non irrilevante. Tenere traccia di ognuna di esse diventa quindi un compito non proprio semplice nonostante l'aiuto di una libreria ActionCreator.
+
+\section{Architettura Redux}
+\label{ReduxArchitecture}
