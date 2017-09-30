@@ -2,6 +2,7 @@
 E' stato spiegato come MVC gestisce la problematica del flusso dei dati attraverso la bidirezionalità, e tutti i problemi che quest'ultima causa nell'implementazione di una applicazione web complessa. Solo recentemente è stato implementato un nuovo tipo di approccio che cerca di ovviare a tutto ciò, ed è quello del “flusso unidirezionale”. Due sono le architetture che verranno analizzate: Flux e Redux, entrambe riescono a mantenere un alto livello di scalabilità a prescindere dalla complessità dell'applicazione e risolvono tutti i problemi legati al flusso bidirezionale ed MVC.
 
 \section{Architettura Flux}
+\label{FluxArchitecture}
 Flux è un'architettura recente creata da Facebook che struttura il front-end di una applicazione in modo che il flusso dei dati dall'innesco di un evento fino alle sue ripercussioni nell'interfaccia segua un'unica direzione.
 Questo pattern, essendo molto astratto, non ha delle vere e proprie dipendenze ed è possibile applicarlo a qualsiasi tipo di applicazione con qualsivoglia linguaggio. E' tuttavia nato per strutturare applicazioni React e quindi perfezionato per tale libreria.
 
@@ -162,3 +163,56 @@ Un altro punto a sfavore di Flux riguarda le Action. Ogni cosa che accade all'in
 
 \section{Architettura Redux}
 \label{ReduxArchitecture}
+
+Redux è una libreria scritta da Dan Abramov e Andrew Clark per la gestione dello stato in applicazioni web scritte con Javascript. Evolve l'idea dell'architettura Flux spiegata nella Sezione \ref{FluxArchitecture} semplificandola attraverso pattern e tecniche della programmazione funzionale. Il concetto base di Redux è che lo stato completo di una applicazione dovrebbe essere descritto attraverso un solo e semplice oggetto Javascript.
+
+\begin{listing}[ht]
+\inputminted{javascript}{sources/exampleReduxState.js}
+\caption{Stato di una applicazione scritta con Redux preso dal sito ufficiale.} 
+\label{exampleReduxState} 
+\end{listing}
+
+\noindent
+Nel Codice \ref{exampleReduxState} preso dal sito ufficiale di Redux ad esempio, viene rappresentato lo stato completo di una applicazione per la gestione delle cose da fare (la classica “To-do application”), con anche dei filtri per visualizzare i compiti aggiunti.
+
+\begin{figure}[h]
+\centering
+\vspace*{0.5cm} 
+\includegraphics[width=11.5cm]{./images/ReduxWorkflow}
+\caption{Architettura Redux}
+\label{ReduxWorkflow}
+\vspace*{0.5cm} 
+\end{figure}
+
+\noindent
+Come è possibile notare nella Figura \ref{ReduxWorkflow}, Redux è molto simile a Flux, ereditando cose come la completa gestione logica del Model all'interno di un singolo componente, che in Flux era lo Store ma che in Redux è il \textit{Reducer}, e l'uso delle \textit{Action}, le quali andando in input a quest'ultimo permettono di modificare lo stato. Il Reducer quindi non è altro che una funzione che prende in input lo stato attuale ed una Action, restituendo in output il nuovo stato da loro derivato.
+Al contrario di Flux tuttavia non esiste un Dispatcher in quanto i Reducers sono \textit{funzioni pure}\footnote{Una funzione pura è una funzione che, dati gli stessi input, restituisce lo stesso output e non ha nessun effetto collaterale, come ad esempio richieste al database, o mutazioni a variabili fuori dal suo scope \cite{FranklinOnPureFunctions}.} facili da comporre e che non hanno quindi bisogno di un componente esterno che li gestisca. Questa può essere vista sia come una differenza di implementazione che come un miglioramento, in quanto la gestione dello stato di Flux è stata sempre descritta come una funzione che deriva il nuovo stato dal precedente e dall'azione eseguita su di esso \mintinline{text}{(state, action) => state}, descrivendo precisamente quello che è il Reducer in Redux \cite{ReduxPriorArt}.
+
+\subsection{I tre principi base di Redux}
+Per scrivere una applicazione che segue in modo preciso questa architettura è necessario seguire tre principi basilari che ne accertano il giusto utilizzo:
+
+\begin{enumerate}
+    \item \textbf{Una sola fonte di verità} Il primo principio indica che lo stato di una applicazione deve essere unico e deve essere memorizzato all'interno di un singolo Store.
+    Questo facilità operazioni come la serializzazione dello stato attuale in modo da poterlo salvare ad ad esempio in un database e recuperarlo in seguito per ripristinare l'applicazione ad un momento precedente. O implementare funzionalità che normalmente sarebbero piuttosto complicate, come l'azione di annullare un'operazione effettuata.
+    Avere a disposizione uno stato singolo per applicazione semplifica anche le operazioni di debugging e di ispezione di un'applicazione \cite{ReduxThreePrinciples}.
+
+    \item \textbf{Lo stato in sola lettura} Il secondo principio di Redux, e comune anche a Flux, dice che lo stato dell'applicazione non può essere modificato se non per mezzo dell'emissione di una Action al Reducer. Questo assicura che nessun componente possa inavvertitamente apportare modifiche dirette allo stato e generare quindi comportamenti inaspettati ed imprevedibili.
+
+    \item \textbf{Lo stato cambia solo attraverso funzioni pure} Il terzo ed ultimo principio, ma non a livello di importanza, riguarda l'obbligo di utilizzare solamente funzioni pure all'interno dei Reducer. Questo permette di comporre più Reducer specifici nell'unico Reducer che si occupa della gestione dello stato, e siccome questi sono solamente funzioni senza effetti collaterali è possibile controllare il loro ordine di esecuzione o creare Reducer generici per parti dello stato comuni.
+\end{enumerate}
+
+\subsection{I componenti}
+Due sono i cambiamenti fondamentali dei componenti di Redux rispetto a quelli di Flux descritti nella Sezione \ref{FluxComponents}: il primo consiste nell'abbandono del Dispatcher; il secondo riguarda invece lo Store che questa volta è unico all'interno dell'applicazione e sfrutta la funzione Reducer per la gestione logica dello stato.
+
+\subsubsection*{Action}
+Anche in Redux come nell'architettura Flux le action sono semplici oggetti composti da un “nome” e da un “payload”, e anche qui si utilizza la libreria ActionCreator per una loro gestione più facile e comprensibile. La differenza tuttavia è che in Flux l'ActionCreator eseguiva direttamente \mintinline{text}{Dispatcher.dispatch()}, in Redux invece l'ActionCreator si occupa solamente di restituire l'oggetto Action desiderato. Astrarre l'Action in questo modo è utile perché la funzione \mintinline{text}{dispatch()} che si occupa di emettere l'azione al Reducer è possibile ottenerla sia dallo Store con \mintinline{text}{Store.dispatch()} sia dalla funzione \mintinline{text}{connect()} presente nella libreria \textit{react-redux}\footnote{https://github.com/reactjs/react-redux} che automatizza la creazione del componente container in React.
+
+\subsubsection*{Reducer}
+Il Reducer è la parte fondamentale dell'architettura Redux. Questo, come è stato precedentemente detto, è una funzione pura del tipo \mintinline{text}{(state, action) => state}, ossia che prende come parametro lo stato attuale ed una Action, e restituisce il nuovo stato. Il Reducer è comparabile in Flux alla funzione che dallo Store registriamo nel Dispatcher per gestire un'Action.
+Siccome lo stato, in questa architettura, è unico (deve essere rappresentato in un singolo oggetto Javascript) come è unico anche lo Store, e quindi anche la funzione Reducer, è necessario trovare un modo per organizzare quest'ultima in maniera comprensibile. Se si dovesse scrivere il Reducer per esteso si otterrebbe una funzione lunghissima e difficilmente gestibile anche per una applicazione non troppo grande, tuttavia utilizzando il pattern della composizione presente nella programmazione funzionale è possibile ovviare a questo problema in modo molto semplice.
+
+\begin{listing}[ht]
+\inputminted{javascript}{sources/exampleReduxReducer.js}
+\caption{Esempio di composizione fra Reducer.} 
+\label{exampleReduxReducer} 
+\end{listing}
