@@ -12,12 +12,8 @@ class Bookshelf extends React.Component {
     BookshelfStore.addChangeListener(this._onChange.bind(this));
   }
 
-  // ...
-
   _onChange() {
-    this.setState({ 
-      books: BookshelfStore.getBooks() 
-    });
+    // ...
   }
 
   // ...
