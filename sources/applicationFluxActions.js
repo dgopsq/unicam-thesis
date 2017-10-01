@@ -1,3 +1,4 @@
+// BookshelfActions.js
 const Actions = {
   addBook: function(title, author) {
     BookshelfDispatcher.dispatch({

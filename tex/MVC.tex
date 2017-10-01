@@ -17,7 +17,6 @@ Il Model rappresenta i dati che formano tutta o una parte dello stato dell'appli
 
 I componenti che compongono la View hanno l'obiettivo di rappresentare i dati del Model in una forma facilmente comprensibile all'utente finale. Nell'architettura standard MVC il ruolo della View era piuttosto dinamico e organizzava i suoi aggiornamenti discutendo direttamente con il Model ed ottenendo i dati da esso, lasciando al Controller il compito di gestire gli input dell'utente. In questo modo l'architettura era organizzata con il Model come componente centrale togliendo importanza al Controller.
 
-\noindent
 Andando avanti nel tempo e con la comparsa sempre più frequente più framework ispirati a questo pattern, l'evoluzione ha cambiato leggermente le regole standard dettando che la View dovrebbe avere il meno possibile un ruolo “attivo" di lettura degli aggiornamenti del Model, e che la gran parte delle informazioni dovrebbe passare attraverso il Controller che diventa così l'elemento principale addetto alla logica \cite{HopkinsOnMVCandPHP}.
 
 \begin{wrapfigure}{l}{7cm}
@@ -40,7 +39,6 @@ Lato front-end l'architettura MVC assume diverse forme a seconda del tipo di car
 \label{ThesisMVPSection}
 L'architettura MVP nasceva nel 1990 nell'azienda Talingent e veniva utilizzata per lo sviluppo di applicazioni in C++ e Java \cite{Potel1996mvp}. E' stata successivamente ripresa da vari framework Javascript tra cui uno dei più famosi è sicuramente Backbone.js.
 
-\noindent
 Mentre nella versione classica di MVC, la View osservava il Model e si modificava di conseguenza, l'evoluzione di questo pattern ha fatto sì che il ruolo di osservatore passasse sempre più al Controller, ora chiamato Presenter, che costituisce un vero e proprio elemento centrale ed intermediario, eliminando quindi completamente la logica dalla View (Figura \ref{MVPworkflow}).
 
 \begin{figure}[h]
@@ -52,7 +50,6 @@ Mentre nella versione classica di MVC, la View osservava il Model e si modificav
 \vspace*{0.5cm} 
 \end{figure}
 
-\noindent
 MVP è un paradigma utilizzato specialmente per applicazioni a livello enterprise, con View complesse e grandi quantità di interazioni da parte dell'utente in quanto tutta la logica risiede nel Presenter rendendo l'applicazione semplice da testare e staccando la View dal resto rendendola particolarmente riutilizzabile all'interno del codice.
 Tuttavia le differenze tra le architetture MVC e MVP sono solo a livello semantico, interpretando cioè diversamente un componente comune ad entrambe. Molti problemi più radicati che troviamo nella prima quindi si vengono comunque a presentare nella seconda \cite{OsmaniOnJSFrameworks}.
 
@@ -70,7 +67,6 @@ Questo paradigma si basa completamente sulla sincronizzazione della View attrave
 \vspace*{0.5cm} 
 \end{figure}
 
-\noindent
 La View tuttavia non può leggere direttamente i dati di cui ha bisogno dal Model, i quali nella maggior parte dei casi sono grezzi e hanno bisogno di essere filtrati e lavorati. Per questo è stato creato un nuovo componente, che sostituisce il Controller, chiamato ViewModel (Figura \ref{MVVMworkflow}) il quale si pone come livello passivo intermedio tra Model e View, ed estrapola i dati utili dal primo e li rende disponibili in maniera comprensibile al secondo, oltre anche a fornire funzioni utili alla gestione dello stato e degli eventi \cite{OsmaniOnJSFrameworks}.
 
 Uno dei punti forti dell'architettura MVVM implementata dai più recenti framework Javascript riguarda l'astrazione della View per l'utilizzo dei vincoli di dati bidirezionali (anche chiamati \textit{Two-ways data bindings}) del ViewModel direttamente all'interno del DOM (Codice \ref{exampleMVVMDataBinding}).
@@ -81,7 +77,6 @@ Uno dei punti forti dell'architettura MVVM implementata dai più recenti framewo
 \label{exampleMVVMDataBinding}
 \end{listing}
 
-\noindent
 Da una parte questi facilitano enormemente l'implementazione dell'interfaccia e consentono di ridurre in maniera considerevole la logica da implementare a parte all'interno del ViewModel, dall'altra sono considerati un tipo di programmazione obsoleta che mischia la logica con il linguaggio di markup.
 
 \section{Il flusso dei dati}
@@ -145,7 +140,6 @@ L'oggetto che estende \mintinline{text}{Backbone.View} è il componente centrale
 \label{applicationMVCPresenter} 
 \end{listing}
 
-\noindent
 La classe \mintinline{text}{Backbone.View} rappresenta, in pratica, un elemento che verrà poi aggiunto al DOM dell'applicazione tramite il metodo \mintinline{text}{render()}. Il tipo di elemento e le sue classi sono descritte attraverso le proprietà \mintinline{text}{tagName} e \mintinline{text}{className}.
 Il contenuto invece viene definito in principio all'interno della stessa funzione \mintinline{text}{render}, e nel caso del Codice \ref{applicationMVCPresenter} viene utilizzato il template engine messo a disposizione da \textit{Underscore.js} per popolare il template selezionato.
 La gestione degli eventi è uno dei compiti più delicati del Presenter. Esistono due tipi di eventi da gestire:
@@ -155,7 +149,6 @@ La gestione degli eventi è uno dei compiti più delicati del Presenter. Esiston
     \item \textbf{Eventi dalla View}: sono quegli eventi che vengono innescati da un certo comportamento dell'utente che utilizza la View dell'applicazione (il click di un pulsante o la scrittura all'interno di un campo di testo).
 \end{itemize}
 
-\noindent
 Gli eventi del primo tipo vengono gestiti all'interno del metodo \mintinline{text}{initialize()}, attraverso la funzione \mintinline{text}{View.listenTo()} passando ad essa il Model o la Collection da osservare (è possibile utilizzare \mintinline{text}{this.collection} o \mintinline{text}{this.model} a seconda del tipo di Model assegnato alla View al suo avvio), il tipo di evento e la relativa funzione che dovrà essere eseguita.
 Per la gestione degli eventi che provengono dalla View invece si utilizza l'oggetto \mintinline{text}{events} specificando il tipo di evento da controllare, il selettore per identificare l'elemento vincolato nel DOM e la funzione da chiamare all'innesco dell'evento (Codice \ref{applicationMVCPresenterEvents}). \textit{Backbone.js} si occuperà poi di assegnare e gestire questi eventi a ciascun elemento del DOM selezionato, risolvendo anche il classico problema di assegnare eventi ad elementi creati successivamente in maniera dinamica.
 

@@ -1,3 +1,4 @@
+// Button.js
 const Button = (props) => (
   <button 
     className="c-button"

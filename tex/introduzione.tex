@@ -16,7 +16,6 @@ La gestione del flusso dei dati all'interno di una applicazione web è un argome
 \label{reactPopularity}
 \end{figure}
 
-\noindent
 Codebase vaste come potrebbero essere quelle di Facebook, Twitter o YouTube necessitano di una architettura di fondo che sia altamente chiara e comprensibile per evitare confusione tra i vari servizi.
 Come vedremo successivamente, architetture datate come l'MVC pur essendo molto efficienti lato back-end non rendono allo stesso modo lato front-end, dove c'è una quantità maggiore di azioni che l'utente può intraprendere e che possono avere ripercussioni differenti su più componenti diversi all'interno di una View.
 In questo documento verranno discusse le alternative attualmente più gettonate come quella a flusso unidirezionale, implementata in prima battuta da Flux e successivamente ottimizzata da Redux.
@@ -51,7 +50,6 @@ Non è da poco che questo tipo di applicazioni hanno preso piede, tuttavia intor
 \label{yesSPA}
 \end{figure}
 
-\noindent
 La problematica della gestione del flusso dei dati è diventata estremamente rilevante con la comparsa delle SPA in Javascript. Nel loro stadio iniziale queste non erano costruite sopra una struttura ben definita e la gestione del flusso dei dati avveniva in maniera disordinata gestendo ogni azione dell'utente in maniera diretta.
 Andando avanti con il tempo e con l'aumentare della complessità di queste applicazioni, si è sentito il bisogno di creare un'architettura ben definita che aiutasse a gestire in maniera più consistente lo stato del servizio e tutti i suoi eventuali cambiamenti.
 
@@ -59,8 +57,7 @@ Andando avanti con il tempo e con l'aumentare della complessità di queste appli
 La necessità di avere struttura più solida lato front-end, specialmente per applicazioni più esigenti, ha portato alla nascita dei primi framework basati sull'architettura MVC.
 
 \blockquote{Single page apps are distinguished by their ability to redraw any part of the UI without requiring a server roundtrip to retrieve HTML. This is achieved by separating the data from the presentation of data by having a model layer that handles data and a view layer that reads from the models. \cite{MixuSinglePageWebApp}}
-
-\noindent Nel modello MVC per front-end (e come anche in quello back-end), che riprenderemo in dettaglio più avanti nel documento, abbiamo una netta distinzione tra i dati dell'applicazione (Model), la presentazione di quest'ultimi (View) e la logica che funge da tramite (Controller), incaricata di gestire gli eventi innescati dall'utente. Questo ci permette di avere un controllo maggiore sullo stato globale e di ogni singolo componente dell'interfaccia oltre ad un codice più robusto e facile da modificare nel tempo \cite{ParrOnTheMVC}.
+ Nel modello MVC per front-end (e come anche in quello back-end), che riprenderemo in dettaglio più avanti nel documento, abbiamo una netta distinzione tra i dati dell'applicazione (Model), la presentazione di quest'ultimi (View) e la logica che funge da tramite (Controller), incaricata di gestire gli eventi innescati dall'utente. Questo ci permette di avere un controllo maggiore sullo stato globale e di ogni singolo componente dell'interfaccia oltre ad un codice più robusto e facile da modificare nel tempo \cite{ParrOnTheMVC}.
 
 Javascript ha a disposizione un numero considerevolmente alto di framework MVC, e la maggior parte di questi tendono a sviluppare questa architettura in maniera leggermente differente, con i propri vantaggi e svantaggi a seconda dei cambiamenti che apportano e del tipo di applicazione che si deve costruire.
 Una di queste è MVP (Model - View - Presenter) utilizzata da \textit{Backbone.js}\footnote{http://backbonejs.org}. In questa il Presenter, che sostituisce il Controller, ha una responsabilità maggiore di quest'ultimo e oltre che gestire gli eventi dell'utente si occupa di fornire i dati necessari alla generazione della View. Un'altra architettura derivata da MVC è MVVM (Model - View - ViewModel), utilizzata da framework come \textit{Knockout}\footnote{http://knockoutjs.com}, in cui il ViewModel si occupa di mantenere i dati del Model (che sono grezzi) nella forma richiesta dalla View, ed espone a quest'ultima metodi e funzioni per la gestione dello stato dell'applicazione \cite{ChauhanFrontendArchitectures}.

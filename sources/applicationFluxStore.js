@@ -1,3 +1,4 @@
+// BookshelfStore.js
 class BookshelfStore extends EventEmitter {
   constructor() {
     // ...
