@@ -409,7 +409,7 @@ University of Camerino - School of Science ant Technologies]
 
 
 
-\renewcommand\chapter{
+\renewcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
   \clearpage
 	\thispagestyle{plain}%
 	\global\@topnum\z@
