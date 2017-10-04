@@ -52,7 +52,7 @@ University of Camerino - School of Science ant Technologies]
 \RequirePackage{amssymb}%
 \RequirePackage{amsmath}%
 \RequirePackage{amsthm}%
-\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}%
+\PassOptionsToPackage{hyphens}{url}\RequirePackage[pdftex,bookmarks=true,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}%
 \RequirePackage{subfigure}%
 \RequirePackage{xspace}%
 \RequirePackage{array}%
