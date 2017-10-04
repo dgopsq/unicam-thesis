@@ -281,8 +281,9 @@ Utilizzare il costrutto \mintinline{text}{Switch} non è obbligatorio, ma è div
 \end{listing}
 
 Nel Codice \ref{applicationReduxStore} è raffigurato il contenuto del file \mintinline{text}{app.js}, nel quale viene creato l'unico Store dell'applicazione. Questo viene creato attraverso
-la funzione \mintinline{text}{createStore} la quale prende in input il Reducer e lo stato iniziale (il quale è rappresentato dalla lista di libri nel file JSON \mintinline{text}{db.json}) e restituisce in output uno Store che tiene traccia dello stato completo dell'applicazione.
+la funzione \mintinline{text}{createStore()} la quale prende in input il Reducer e lo stato iniziale (il quale è rappresentato dalla lista di libri nel file JSON \mintinline{text}{db.json}) e restituisce in output uno Store che tiene traccia dello stato completo dell'applicazione.
 Lo Store non è posizionato in un file a parte, e non è un singleton questa volta, bensì viene passato all'interno dell'applicazione attraverso il componente \mintinline{text}{<Provider />} che permette il suo accesso a qualsiasi livello della gerarchia della View.
+Avere uno Store mobile all'interno dell'applicazione e non un singleton globale semplifica il lavoro sia in fase di testing, sia nel caso in cui si voglia utilizzare la tecnica del Server-side rendering, in quanto lato server è comunque necessario creare uno Store nuovo ad ogni richiesta ricevuta.
 
 \subsection{Redux e il flusso dei dati}
 Il flusso dei dati nell'architettura Redux può essere riassunto semplicemente in un'Action emanata dalla View che viene data in pasto al Reducer nello Store, per generare il nuovo stato dell'applicazione.
