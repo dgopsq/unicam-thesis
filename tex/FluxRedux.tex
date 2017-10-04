@@ -1,5 +1,5 @@
 \chapter{Il flusso unidirezionale con Flux e Redux}
-E' stato spiegato come MVC gestisce la problematica del flusso dei dati attraverso la bidirezionalità, e tutti i problemi che quest'ultima causa nell'implementazione di una applicazione web complessa. Solo recentemente è stato implementato un nuovo tipo di approccio che cerca di ovviare a tutto ciò, ed è quello del “flusso unidirezionale”. Due sono le architetture che verranno analizzate: Flux e Redux. Entrambe riescono a mantenere un alto livello di scalabilità a prescindere dalla complessità dell'applicazione e risolvono tutti i problemi legati al flusso bidirezionale ed MVC.
+E' stato spiegato come MVC gestisce la problematica del flusso dei dati attraverso la bidirezionalità, e tutti i problemi che quest'ultima causa nell'implementazione di una applicazione web complessa. Solo recentemente è stato utilizzato un nuovo tipo di approccio che cerca di ovviare a tutto ciò, ed è quello del “flusso unidirezionale”. Due sono le architetture che verranno analizzate: Flux e Redux. Entrambe riescono a mantenere un alto livello di scalabilità a prescindere dalla complessità dell'applicazione e risolvono tutti i problemi legati al flusso bidirezionale ed MVC.
 
 \section{Architettura Flux}
 \label{FluxArchitecture}
@@ -15,14 +15,16 @@ Questo pattern, essendo molto astratto, non ha delle vere e proprie dipendenze e
 \vspace*{0.5cm} 
 \end{figure}
 
-La struttura di questa architettura è rappresentata nella Figura \ref{FluxWorkflow}. La sua logica è divisa in due parti: ciò che riguarda gli eventi e le modifiche all'interfaccia è compreso nella View, la quale potrebbe essere definita come una Controller-View in quanto esegue entrambi i lavori; la logica che riguarda invece lo stato dell'applicazione è compresa negli Store, i quali a seconda dell'azione eseguita lo modificano di conseguenza.
+L'architettura descritta da Flux nella Figura \ref{FluxWorkflow} evidenzia dei componenti quasi completamente nuovi rispetto a quelli visti fino ad ora nei vari dialetti di MVC. Ci sono quattro elementi fondamentali: le \textit{Action}, il \textit{Dispatcher}, gli \textit{Store} e le \textit{View}. Le Action sono degli “eventi” che descrivono i vari comportamenti dell'applicazione e che le View trasmettono ai gestori dello stato chiamati Store, attraverso il Dispatcher, il quale è unico ed ha solamente il compito di indirizzatore. Gli Store a seconda del tipo di Action ricevuta modificano di conseguenza la parte di stato contenuto al loro interno emettendo infine una notifica alle View. 
+Il percorso che i dati dell'applicazione seguono in questo caso è ciclico, e ogni componente interagisce solamente con il successivo.
+La logica dell'applicazione è divisa in due parti: ciò che riguarda la gestione degli eventi e le modifiche all'interfaccia è compreso nelle View, in questo caso più propriamente classificabili come Controller-View; la logica che riguarda invece lo stato dell'applicazione è compresa negli Store, i quali modificano lo stato a seconda della Action ricevuta dal Dispatcher.
 
 \subsection{I componenti}
 \label{FluxComponents}
-Flux considera nella sua architettura quattro elementi fondamentali: Le \textit{Action}, il \textit{Dispatcher}, gli \textit{Stores} e le \textit{View}.
+Sono stati elencati i componenti fondamentali di questa architettura e come essi comunicano fra loro. Per capire appieno Flux e come questo implementi l'unidirezionalità dei dati tuttavia, è bene analizzare in dettaglio il lavoro di ciascuno di questi componenti.
 
 \subsubsection*{Action}
-Le Action sono la moneta di scambio dell'architettura e vengono propagate dalle View (attraverso il Dispatcher) agli Store che le utilizzeranno per apportare modifiche a se stessi. Queste consistono generalmente in un oggetto composto da due elementi:
+Il problema fondamentale di dividere la logica dell'interfaccia da quella della gestione dello stato, sta nel far comunicare le due in modo semplice e veloce. Le View riescono a notificare gli Store di un evento innescato dall'utente grazie alle Action, e questi dopo aver modificato la loro parte di stato, comunicano alle View l'avvenuto cambiamento. Le Action sono quindi la moneta di scambio dell'architettura e consistono generalmente in un oggetto composto da due elementi:
 
     \begin{itemize}
         \item \textbf{Nome} Rappresenta lo scopo dell'azione da effettuare, ed è una stringa come ad esempio \mintinline{text}{AddArticle} o \mintinline{text}{RemoveUser}. 
@@ -82,7 +84,7 @@ Il Codice \ref{applicationFluxBookshelfState} rappresenta l'interazione tra il c
 \begin{enumerate}
     \item Nel costruttore viene inizializzato lo stato del componente ottenendolo dallo Store tramite il metodo \mintinline{text}{BookshelfStore.getBooks()}.
 
-    \item Nel metodo \mintinline{text}{componentWillMount()}, che React esegue automaticamente durante l'inizializzazione del componente, viene iniziato l'ascolto dell'evento di aggiornamento dello Store assegnandolo alla funzione interna \mintinline{text}{_onChange()} che provvederà a sincronizzare lo stato del componente con quello dello Store.
+    \item Nel metodo \mintinline{text}{componentWillMount()}, che React esegue automaticamente durante l'inizializzazione del componente, viene iniziato l'ascolto dell'evento di aggiornamento dello Store attraverso il metodo \mintinline{text}{BookshelfStore.addChangeListener()}. Questo non fa altro che sottoscrivere una funzione della View, nel caso in esame il metodo \mintinline{text}{_onChange()}, all'evento \mintinline{text}{change} dello Store. La funzione sottoscritta ha il compito di sincronizzare lo stato del componente container con il nuovo stato dello Store.
 \end{enumerate}
 
 Il componente container ha poi il compito di comporre l'interfaccia utilizzando gli altri componenti di presentazione a disposizione, e passare loro i dati e le funzioni per il corretto funzionamento dell'applicazione.
@@ -93,7 +95,7 @@ Il componente container ha poi il compito di comporre l'interfaccia utilizzando 
 \label{applicationFluxBookshelfRender} 
 \end{listing} 
 
-Nel Codice \ref{applicationFluxBookshelfRender} viene utilizzato il componente \mintinline{text}{<AddBook />} definito all'interno del file \mintinline{text}{AddBook.js}, al quale viene passata la funzione \mintinline{text}{_handleAddBook(title, author)} che gestirà l'evento di aggiunta di un nuovo libro emanando l'Action relativa al Dispatcher. Tutti i componenti di presentazione utilizzati per comporre l'interfaccia sono dipendenti dal componente container \mintinline{text}{<Bookshelf />} e non comunicano direttamente con l'architettura Flux. Un componente di presentazione è solitamente composto solamente da una funzione che ritorna codice JSX in base alle proprietà ricevute dal componente superiore.
+Nel Codice \ref{applicationFluxBookshelfRender} viene utilizzato il componente \mintinline{text}{<AddBook />} definito all'interno del file \mintinline{text}{AddBook.js}, al quale viene passata la funzione \mintinline{text}{_handleAddBook()} che gestirà l'evento di aggiunta di un nuovo libro emanando l'Action relativa al Dispatcher. Tutti i componenti di presentazione utilizzati per comporre l'interfaccia sono dipendenti dal componente container \mintinline{text}{<Bookshelf />} e non comunicano direttamente con l'architettura Flux. Questo ha il compito di creare le funzioni per gestire i vari eventi dell'applicazione e passarle ai suoi componenti di presentazione. Un componente di presentazione è solitamente composto solamente da una funzione che ritorna codice JSX in base alle proprietà ricevute dal componente superiore.
 
 \begin{listing}[ht]
 \inputminted{jsx}{sources/applicationFluxButton.js}
@@ -101,12 +103,12 @@ Nel Codice \ref{applicationFluxBookshelfRender} viene utilizzato il componente \
 \label{applicationFluxButton} 
 \end{listing} 
 
-Ad esempio il componente rappresentato nel Codice \ref{applicationFluxButton}, che rappresenta un semplice bottone, è riutilizzabile all'interno dell'applicazione in quanto a seconda del contesto possiamo cambiare il suo contenuto e comportamento a seconda delle proprietà passate.
+Il componente rappresentato nel Codice \ref{applicationFluxButton} ad esempio, che rappresenta un semplice bottone, è riutilizzabile all'interno dell'applicazione in quanto a seconda del contesto possiamo cambiare il suo contenuto e comportamento in base delle proprietà a lui passate.
 
-E' possibile creare un componente contenitore all'interno di un altro, se è necessario gestire elementi dell'interfaccia piuttosto complessi. Questo è il caso del componente \mintinline{text}{<AddBook />}, che rappresenta il form di aggiunta di un nuovo libro, composto dai vari campi di testo ed il bottone di invio, e mantiene al suo interno lo stato di questi vari elementi. È bene prestare attenzione nell'aggiungere componenti contenitori nidificati, sopratutto nel non utilizzarli per interagire con l'architettura, compito che dovrebbe essere lasciato sempre al componente di più alto livello.
+E' possibile creare un componente contenitore all'interno di un altro nel caso sia necessario gestire elementi dell'interfaccia piuttosto complessi. Questo è il caso del componente \mintinline{text}{<AddBook />}, che rappresenta il form di aggiunta di un nuovo libro, composto dai vari campi di testo ed il bottone di invio e mantiene al suo interno lo stato di questi vari elementi. È bene prestare attenzione nell'aggiungere componenti contenitori nidificati, evitando soprattutto di utilizzarli per interagire con l'architettura, compito che dovrebbe essere lasciato sempre al componente di più alto livello.
 
 \subsubsection*{La gestione dei dati}
-L'architettura Flux è implementata attraverso i componenti presenti nella cartella \mintinline{text}{flux/src/data}. Il primo file da analizzare è \mintinline{text}{BookshelfActions.js}, una libreria che fornisce le Actions eseguibili all'interno dell'applicazione sotto forma di funzione, e le fa emettere direttamente dal Dispatcher. Questo tipo di utility è comunemente chiamata in ambito Flux \textit{ActionCreator}.
+L'architettura Flux è implementata attraverso i componenti presenti nella cartella \mintinline{text}{flux/src/data}. Il primo file da analizzare è \mintinline{text}{BookshelfActions.js}, una libreria che fornisce le Actions eseguibili all'interno dell'applicazione sotto forma di funzione, e le fa emettere direttamente dal Dispatcher. Questo tipo di utility è comunemente chiamata in ambito Flux \textit{ActionCreator} ed è un pattern molto utilizzato in quanto permette di organizzare e gestire in maniera dinamica le Action, che normalmente sarebbero dei semplici oggetti.
 
 \begin{listing}[ht]
 \inputminted{jsx}{sources/applicationFluxActions.js}
@@ -114,10 +116,10 @@ L'architettura Flux è implementata attraverso i componenti presenti nella carte
 \label{applicationFluxActions} 
 \end{listing} 
 
-Nell'esempio del Codice \ref{applicationFluxActions} viene riportata una funzione che automatizza l'emissione dell'azione \mintinline{text}{ADD_BOOK} al Dispatcher, fornendo come payload il titolo e l'autore del libro.
-Le funzioni implementate dall'ActionCreator vengono generalmente utilizzate dal componente container per interagire in maniera corretta con lo Store.
+Nell'esempio del Codice \ref{applicationFluxActions} viene riportata la funzione \mintinline{text}{Actions.addBook()} che prende in input il titolo e l'autore di un libro ed automatizza l'emissione dell'azione \mintinline{text}{ADD_BOOK} al Dispatcher tramite il metodo \mintinline{text}{BookshelfDispatcher.dispatch()}.
+Le funzioni implementate dall'ActionCreator vengono generalmente passate dal componente container  ai componenti di presentazione per interagire in maniera corretta con lo Store.
 
-Le Action devono essere emesse dal Dispatcher (Codice \ref{applicationFluxDispatcher}), questo nell'applicazione viene implementato nel file \mintinline{text}{BookshelfDispatcher.js} utilizzando quello messo a disposizione automaticamente dalla libreria \textit{Flux}. Questo Dispatcher, implementato ed attualmente utilizzato anche da Facebook, è una versione molto più potente del codice esempio esposto nella Sezione \ref{FluxComponents}.
+Le Action devono essere emesse dal Dispatcher. Quest'ultimo, nell'applicazione, viene implementato nel file \mintinline{text}{BookshelfDispatcher.js} utilizzando quello messo a disposizione automaticamente dalla libreria \textit{Flux}. Questo Dispatcher, implementato ed attualmente utilizzato anche da Facebook, è una versione molto più potente del codice esempio esposto nella Sezione \ref{FluxComponents}.
 
 \begin{listing}[ht]
 \inputminted{jsx}{sources/applicationFluxDispatcher.js}
@@ -125,7 +127,7 @@ Le Action devono essere emesse dal Dispatcher (Codice \ref{applicationFluxDispat
 \label{applicationFluxDispatcher} 
 \end{listing} 
 
-Viene esportata direttamente un'istanza che ci fornisce un singleton, in quanto il Dispatcher deve essere unico all'interno dell'applicazione e condiviso tra tutti i componenti che hanno bisogno di effettuare azioni.
+Nel Codice \ref{applicationFluxDispatcher}, che rappresenta il Dispatcher dell'applicazione in analisi, viene esportata direttamente l'istanza che ci fornisce un singleton. Questo perché il Dispatcher deve essere unico all'interno dell'applicazione e condiviso tra tutti i componenti che hanno bisogno di effettuare azioni.
 
 L'ultimo componente che viene preso in esame è lo Store, implementato nel file \mintinline{text}{BookshelfStore.js}. Questo ha il compito di gestire lo stato dell'applicazione mantenendo una lista di libri in \mintinline{text}{this.state}, pre-popolata attraverso il file JSON \mintinline{text}{db.json}, e anche quello di fornire al Dispatcher la funzione incaricata di gestire le Action emesse.
 
@@ -160,6 +162,7 @@ Redux è una libreria scritta da Dan Abramov e Andrew Clark per la gestione dell
 \end{listing}
 
 Nel Codice \ref{exampleReduxState} preso dal sito ufficiale di Redux, ad esempio, viene rappresentato lo stato completo di una applicazione per la gestione delle cose da fare (la classica “To-do application”), con anche dei filtri per visualizzare i compiti aggiunti.
+La struttura di questo è molto semplice ma allo stesso tempo ci da tutte le informazioni necessarie per capire l'applicazione. Il problema di avere lo stato in un unico oggetto risiede nella difficoltà che si ha nel gestirlo. Basti immaginare quanto possa essere intricata la struttura dell'oggetto che descrive un'interfaccia complessa come quella di Facebook ad esempio, e quanti livelli nidificati di stato si dovrebbero gestire. Proprio per questo l'approccio utilizzato da Flux consiste nel dividerlo, distribuendolo su più Store e diminuendo drasticamente la complessità del lavoro. Redux invece risolve questo problema utilizzando la tecnica della composizione di funzioni, un classico della programmazione funzionale che in questo caso permette di generare lo stato completo dell'applicazione attraverso delle funzioni chiamate \textit{Reducer} che ne gestiscono e ritornano piccoli pezzi. 
 
 \begin{figure}[h]
 \centering
@@ -170,7 +173,7 @@ Nel Codice \ref{exampleReduxState} preso dal sito ufficiale di Redux, ad esempio
 \vspace*{0.5cm} 
 \end{figure}
 
-Come è possibile notare nella Figura \ref{ReduxWorkflow}, Redux è molto simile a Flux, ereditando cose come la completa gestione logica dello stato all'interno di un singolo componente, che in Flux era lo Store ma che in Redux è il \textit{Reducer}. Un altro elemento in comune riguarda l'uso delle \textit{Action}, le quali essendo input del Reducer permettono di modificare lo stato all'interno dello Store. Il Reducer quindi non è altro che una funzione che prende in input lo stato attuale ed una Action, restituendo in output il nuovo stato da loro derivato.
+Come è possibile notare nella Figura \ref{ReduxWorkflow}, Redux è molto simile a Flux, ereditando cose come la completa gestione logica dello stato all'interno di un singolo componente, che in Flux era lo Store ma che in Redux è il Reducer. Un altro elemento in comune riguarda l'uso delle \textit{Action}, le quali essendo input del Reducer permettono di modificare lo stato all'interno dello Store. Il Reducer quindi non è altro che una funzione che prende in input lo stato attuale ed un'Action, restituendo in output il nuovo stato da loro derivato.
 Al contrario di Flux tuttavia non esiste un Dispatcher in quanto i Reducers sono \textit{funzioni pure}\footnote{Una funzione pura è una funzione che, dati gli stessi input, restituisce lo stesso output e non ha nessun effetto collaterale, come ad esempio richieste al database, o mutazioni a variabili fuori dal suo scope \cite{FranklinOnPureFunctions}.}, facili da comporre e che non hanno quindi bisogno di un componente esterno che li gestisca. Questa può essere vista sia come una differenza di implementazione che come un miglioramento, in quanto la gestione dello stato di Flux è sempre descritta come una funzione che deriva il nuovo stato dal precedente e dall'azione eseguita su di esso \mintinline{text}{(state, action) => state}, descrivendo precisamente quello che è il Reducer in Redux \cite{ReduxDocumentation}.
 
 \subsection{I tre principi base di Redux}
@@ -187,6 +190,7 @@ Per scrivere una applicazione che segue in modo preciso questa architettura è n
 \end{enumerate}
 
 \subsection{I componenti}
+\label{ReduxComponents}
 Due sono i cambiamenti fondamentali dei componenti di Redux rispetto a quelli di Flux descritti nella Sezione \ref{FluxComponents}: il primo consiste nell'abbandono del Dispatcher; il secondo riguarda invece lo Store che questa volta è unico all'interno dell'applicazione e sfrutta la funzione Reducer per la gestione logica dello stato.
 
 \subsubsection*{Action}
@@ -227,7 +231,7 @@ Per l'analisi concreta di un'applicazione con Redux, verrà ripreso parte del co
 Il codice è sempre diviso in due parti principali: i componenti React nella cartella \mintinline{text}{redux/src/components} e gli elementi dell'architettura Redux in questo caso, nella cartella \mintinline{text}{redux/src/data}. Di seguito verranno spiegate in dettaglio queste due parti e le principali differenze con l'architettura Flux.
 
 \subsubsection*{I componenti React}
-Come è già stato detto in precedenza, l'unico componente React che cambia nell'architettura Redux è il componente container, il quale non è più gestito manualmente ma automatizzato attraverso la funzione \mintinline{text}{connect()} di Redux.
+Come è già stato detto in precedenza, l'unico componente React che cambia nell'architettura Redux è il componente container, il quale non è più gestito manualmente ma automatizzato attraverso la funzione \mintinline{text}{connect()}.
 
 \begin{listing}[ht]
 \inputminted{javascript}{sources/applicationReduxBookshelf.js}
@@ -235,7 +239,7 @@ Come è già stato detto in precedenza, l'unico componente React che cambia nell
 \label{applicationReduxBookshelf} 
 \end{listing}
 
-Nel Codice \ref{applicationReduxBookshelf} è rappresentato il componente container principale dell'applicazione, e come le funzioni \mintinline{text}{mapStateToProps()} e \mintinline{text}{mapDispatchToProps()} vengono connesse insieme al componente \mintinline{text}{<Bookshelf />} impacchettandolo per fornirgli tutte le informazioni necessarie dello Store attraverso le sue proprietà.
+Nel Codice \ref{applicationReduxBookshelf} è rappresentato il componente container principale dell'applicazione che viene creato utilizzando il metodo automatizzato descritto nella Sezione \ref{ReduxComponents}. Le funzioni \mintinline{text}{mapStateToProps()} e \mintinline{text}{mapDispatchToProps()} vengono connesse insieme al componente \mintinline{text}{<Bookshelf />} fornendogli le proprietà con all'interno gli elementi utili dello stato e le Action per interagire con lo Store da passare ai suoi componenti di presentazione.
 
 \begin{listing}[ht]
 \inputminted{javascript}{sources/applicationReduxBookshelfProps.js}
@@ -245,8 +249,8 @@ Nel Codice \ref{applicationReduxBookshelf} è rappresentato il componente contai
 
 Il contenuto di queste funzioni utilizzate all'interno di \mintinline{text}{connect()} è presente nel Codice \ref{applicationReduxBookshelfProps}. La funzione \mintinline{text}{mapStateToProps()} prende in input lo stato dallo Store (che in questa applicazione è solamente un array di libri) e lo assegna ad una proprietà. Questo procedimento è l'equivalente di assegnare lo stato dello Store in maniera diretta: \mintinline{text}{<Bookshelf books={state.books} />}.
 Allo stesso modo, la funzione \mintinline{text}{mapDispatchToProps()} prende come parametro la funzione per l'emissione delle Action \mintinline{text}{dispatch()} e la assegna, utilizzando le funzioni create all'interno dell'ActionCreator, alle proprietà che serviranno per gestire gli eventi nei vari componenti di presentazione.
-La funzione \mintinline{text}{connect()} prende in input queste due funzioni e restituisce in output una nuova funzione \textit{Higher-order component}\footnote{Un \textit{Higher-order component}, o più semplicemente “HOC”, è una funzione che prende in input e restituisce in output un componente React. Il suo nome deriva dalle “higher order function” che in matematica rappresentano funzioni che prendono come parametro una o più funzioni, e ritornano una o più nuove funzioni derivate da queste.}, che passa ad un componente React tutte le proprietà precedentemente definite. In questo caso il componente React passato come parametro, come è possibile notare nel Codice \ref{applicationReduxBookshelf}, corrisponde alla funzione \mintinline{text}{render()} del componente \mintinline{text}{<Bookshelf />} implementato nell'architettura Flux.
-
+La funzione \mintinline{text}{connect()} prende in input queste due funzioni e restituisce in output una nuova funzione \textit{Higher-order component}\footnote{Un \textit{Higher-order component}, o più semplicemente “HOC”, è una funzione che prende in input e restituisce in output un componente React. Il suo nome deriva dalle “higher order function” che in matematica rappresentano funzioni che prendono come parametro una o più funzioni, e ritornano una o più nuove funzioni derivate da queste.}, che passa ad un componente React tutte le proprietà precedentemente definite. In questo caso il componente React passato come parametro, come è possibile notare nel Codice \ref{applicationReduxBookshelf}, corrisponde solamente alla funzione \mintinline{text}{render()} del componente \mintinline{text}{<Bookshelf />} implementato nell'architettura Flux. Questo perché tutti i metodi creati all'interno in maniera manuale sono stati invece generati automaticamente da \mintinline{text}{connect()} e passati come proprietà.
+ 
 \subsubsection*{La gestione dei dati}
 La vera e propria architettura Redux è implementata nei file contenuti in \mintinline{text}{redux/src/data} dove si trovano Reducer e Action, e nel file \mintinline{text}{redux/src/app.js} dove viene creato lo Store. Tecnicamente, in Redux abbiamo un solo componente che esiste concretamente, ed è lo Store. I Reducer e le Action (più precisamente l'ActionCreator in questa applicazione) servono a far funzionare nel modo corretto quest'ultimo. I primi gestiscono lo stato, le seconde permettono ai vari componenti di interagire con lo Store.
 Sotto questo punto di vista Redux semplifica parecchio l'architettura di Flux, concentrando tutto il lavoro in un unico componente invece di avere un numero indefinito di Store coordinati tramite il Dispatcher.
@@ -257,7 +261,8 @@ Sotto questo punto di vista Redux semplifica parecchio l'architettura di Flux, c
 \label{applicationReduxActions} 
 \end{listing}
 
-Nel Codice \ref{applicationReduxActions} è rappresentato l'ActionCreator che ritorna le varie Action da eseguire per mezzo della funzione \mintinline{text}{dispatch()}. Al contrario dell'architettura Flux ogni funzione definita nell'ActionCreator ritorna un normale oggetto, invece che emettere direttamente l'azione allo Store.
+Nel Codice \ref{applicationReduxActions} è rappresentato l'ActionCreator che ritorna in maniera dinamica le varie Action da eseguire per mezzo della funzione \mintinline{text}{dispatch()}. Al contrario dell'architettura Flux ogni funzione definita nell'ActionCreator ritorna un normale oggetto invece che emettere direttamente l'azione allo Store.
+Redux non possiede un vero e proprio standard per la struttura delle Action e viene quindi solitamente utilizzata la struttura definita da Flux, che prevede il nome dell'azione nel campo “type” e i dati utili per la sua esecuzione nel campo “payload”.
 
 \begin{listing}[ht]
 \inputminted{javascript}{sources/applicationReduxReducer.js}

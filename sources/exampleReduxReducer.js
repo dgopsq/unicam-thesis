@@ -1,10 +1,10 @@
-function todosReducer(state = [], action) {
+const todosReducer = (state = [], action) => {
   // ...
-}
+};
 
-function visibilityFilterReducer(state = 'SHOW_ALL', action) {
+const visibilityFilterReducer = (state = 'SHOW_ALL', action) => {
   // ...
-}
+};
 
 // Questo è il Reducer composto
 const todoAppReducer = combineReducers({
